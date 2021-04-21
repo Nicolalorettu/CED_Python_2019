@@ -1,0 +1,729 @@
+{% extends "base_generic.html" %}
+{% block content %}
+{% include "Navbar.html" %}
+{% load static %}
+<div class="container">
+<div>
+    <style>
+    hr {
+        display: block;
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+        margin-left: auto;
+        margin-right: auto;
+        border-style: inset;
+        border-width: 1px;
+    }
+    </style>
+<div class="container">
+    <div class="panel panel-primary">
+        <div class="panel-heading" style="text-align: center;font-weight: bold;">
+            Report KPI - IVR
+        </div>
+        <div class="panel-body">
+            <form class="form" onsubmit="myFunction()" id="form" action="{% url "CED:ivr" %}" method="post">{% csrf_token %}
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <label>Anno:</label>
+                            <select class="form-control" name="year">
+                                {% if 7.form.year %}
+                                    <option selected="selected"> {{ 7.form.year }} </option>
+                                {% endif %}
+                                <option value="2018">   2018   </option>
+                                <option value="2019">   2019   </option>
+                            </select>
+                        </div>
+                        <div class="col-lg-1">
+
+                        </div>
+                        <div class="col-lg-2">
+                            <label for="month">Mese:</label>
+                            <select onchange="disable_date()" class="form-control" id="month" name="month">
+                                {% if 7.form.month %}
+                                    <option selected="selected"> {{ 7.form.month }} </option>
+                                {% endif %}
+                                <option value="">--Seleziona Data--</option>
+                                {% for month in 3.months %}
+                                    {% if 7.form.month != month.name %}
+                                        <option value={{month.name}}>   {{month.name}}   </option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-lg-2">
+                            <label for="date_from">Data da:</label>
+                            <input type="date" class="form-control" id="date_from" name="date_from" value="{{ 7.form.date_from }}">
+                        </div>
+                        <div class="col-lg-2">
+                            <label for="date_to">Data a:</label>
+                            <input type="date" class="form-control" id="date_to" name="date_to" value="{{ 7.form.date_to }}">
+                        </div>
+                        <div class="col-lg-1">
+
+                        </div>
+                        <div class="col-lg-2">
+                            <label for="group">Gruppo:</label>
+                            <select class="form-control" name="group">
+    <!--                            <option value="TUTTI">   TUTTI   </option>                 -->
+                                {% if 7.form.group %}
+                                    <option selected="selected"> {{ 7.form.group }} </option>
+                                {% endif %}
+                                {% for group in 0.groups %}
+                                    <option value={{group.BACINO}}>   {{group.BACINO}}   </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p></p>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2 col-xs-6">
+                            <div class="btn-group">
+                                <button class="btn btn-primary" type="submit" name="ivrtable" value="1" style="width:160px">Dettaglio IVR</button>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+
+                        </div>
+                        <div class="col-lg-4">
+
+                        </div>
+                        <div class="col-lg-2">
+
+                        </div>
+                        <div class="col-lg-2 col-xs-6">
+                            <div class="btn-group">
+                                <button class="btn btn-primary" type="submit" name="ivrtable" value="0" style="width:160px">Tabella IVR</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row" id="pbar" style="display: none">
+        <div class="col-lg-4">
+
+        </div>
+        <div class="col-lg-4">
+            <img  class="img-responsive center-block" src="{% static "app/img/loading.gif" %}" alt="">
+        </div>
+        <div class="col-lg-4">
+
+        </div>
+    </div>
+</div>
+
+<div class="row" id="data" style="display: block">
+    {% if 9.errors %}
+        <div class="container">
+            {% if 9.errors.empty %}
+                <div class="alert alert-info" style="text-align: center;font-weight: bold;">
+                    {{ 9.errors.empty }}
+                </div>
+            {% elif 9.errors.date %}
+                <div class="alert alert-danger" style="text-align: center;font-weight: bold;">
+                    {{ 9.errors.date }}
+                </div>
+            {% endif %}
+        </div>
+    {% elif 1.ivrsmonth.ced_c87_ivr_187 %}
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#Qualitativo">QUALITATIVO</a></li>
+            <li><a data-toggle="tab" href="#Quantitativo">QUANTITATIVO D7</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="Qualitativo" class="tab-pane fade in active">
+                <div class="col-lg-2"> <!-- HOME OLD IVR TABLE MONTH -->
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th bgcolor="red" style="text-align: left;vertical-align: middle" colspan="9"><font color="white">MENSILE</font></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                            {% for row in 6.htmlth.int %}
+                                <td height="57" bgcolor="lightgrey"style="text-align: center;font-weight: bold;vertical-align: middle">{{ row }}</td>
+                            {% endfor %}
+                            </tr>
+                            <tr>
+                                {% for ivrs in 1.ivrsmonth.ced_c87_ivr_187 %}
+                                    {% for ivr in ivrs %}
+                                        <tr>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Periodo }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Gruppo }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endfor %}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-lg-5"> <!-- HOME OLD IVR TABLE MONTH -->
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th bgcolor="red" style="text-align: left;vertical-align: middle" colspan="9"><font color="white">187 HOME</font></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                            {% for row in 6.htmlth.187new %}
+                                <td height="35" bgcolor="lightgrey"style="text-align: center;font-weight: bold;vertical-align: middle">{{ row }}</td>
+                            {% endfor %}
+                            </tr>
+                            <tr>
+                                {% for ivrs in 1.ivrsmonth.ced_c87_ivr_187 %}
+                                    {% for ivr in ivrs %}
+                                        <tr>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Interviste_Valide }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Interviste_NV }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Media_DD4|floatformat:2 }}</td>
+                                            {% if 10.target.home.0.tier3 == 0 %}
+                                                <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Media_DD7|floatformat:2 }}</td>
+                                            {% elif ivr.Media_DD7 >= 10.target.home.0.tier3 %}
+                                                <td height="35" bgcolor="blue"style="text-align: center;vertical-align: middle"><font color="white">{{ ivr.Media_DD7|floatformat:2 }}</font></td>
+                                            {% elif ivr.Media_DD7 >= 10.target.home.0.tier2 %}
+                                                <td height="35" bgcolor="lightblue"style="text-align: center;vertical-align: middle">{{ ivr.Media_DD7|floatformat:2 }}</td>
+                                            {% elif ivr.Media_DD7 >= 10.target.home.0.tier1 %}
+                                                <td height="35" bgcolor="lightgreen"style="text-align: center;vertical-align: middle">{{ ivr.Media_DD7|floatformat:2 }}</td>
+                                            {% elif ivr.Media_DD7 >= 10.target.home.0.tgt %}
+                                                <td height="35" bgcolor="pink"style="text-align: center;vertical-align: middle">{{ ivr.Media_DD7|floatformat:2 }}</td>
+                                            {% else %}
+                                                <td height="35" bgcolor="red"style="text-align: center;vertical-align: middle"><font color="white">{{ ivr.Media_DD7|floatformat:2 }}</font></td>
+                                            {% endif %}
+                                            {% if 10.target.home.1.tier3 == 0 %}
+                                                <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Media_Fonia|floatformat:2 }}</td>
+                                            {% elif ivr.Media_Fonia >= 10.target.home.1.tier3 %}
+                                                <td height="35" bgcolor="blue"style="text-align: center;vertical-align: middle"><font color="white">{{ ivr.Media_Fonia|floatformat:2 }}</font></td>
+                                            {% elif ivr.Media_Fonia >= 10.target.home.1.tier2 %}
+                                                <td height="35" bgcolor="lightblue"style="text-align: center;vertical-align: middle">{{ ivr.Media_Fonia|floatformat:2 }}</td>
+                                            {% elif ivr.Media_Fonia >= 10.target.home.1.tier1 %}
+                                                <td height="35" bgcolor="lightgreen"style="text-align: center;vertical-align: middle">{{ ivr.Media_Fonia|floatformat:2 }}</td>
+                                            {% elif ivr.Media_Fonia >= 10.target.home.1.tgt %}
+                                                <td height="35" bgcolor="pink"style="text-align: center;vertical-align: middle">{{ ivr.Media_Fonia|floatformat:2 }}</td>
+                                            {% else %}
+                                                <td height="35" bgcolor="red"style="text-align: center;vertical-align: middle"><font color="white">{{ ivr.Media_Fonia|floatformat:2 }}</font></td>
+                                            {% endif %}
+
+                                            {% if 10.target.home.2.tier3 == 0 %}
+                                                <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Media_Adsl|floatformat:2 }}</td>
+                                            {% elif ivr.Media_Adsl >= 10.target.home.2.tier3 %}
+                                                <td height="35" bgcolor="blue"style="text-align: center;vertical-align: middle"><font color="white">{{ ivr.Media_Adsl|floatformat:2 }}</font></td>
+                                            {% elif ivr.Media_Adsl >= 10.target.home.2.tier2 %}
+                                                <td height="35" bgcolor="lightblue"style="text-align: center;vertical-align: middle">{{ ivr.Media_Adsl|floatformat:2 }}</td>
+                                            {% elif ivr.Media_Adsl >= 10.target.home.2.tier1 %}
+                                                <td height="35" bgcolor="lightgreen"style="text-align: center;vertical-align: middle">{{ ivr.Media_Adsl|floatformat:2 }}</td>
+                                            {% elif ivr.Media_Adsl >= 10.target.home.2.tgt %}
+                                                <td height="35" bgcolor="pink"style="text-align: center;vertical-align: middle">{{ ivr.Media_Adsl|floatformat:2 }}</td>
+                                            {% else %}
+                                                <td height="35" bgcolor="red"style="text-align: center;vertical-align: middle"><font color="white">{{ ivr.Media_Adsl|floatformat:2 }}</font></td>
+                                            {% endif %}
+
+                                            {% if 10.target.home.3.tier3 == 0 %}
+                                                <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Media_Fibra|floatformat:2 }}</td>
+                                            {% elif ivr.Media_Fibra >= 10.target.home.3.tier3 %}
+                                                <td height="35" bgcolor="blue"style="text-align: center;vertical-align: middle"><font color="white">{{ ivr.Media_Fibra|floatformat:2 }}</font></td>
+                                            {% elif ivr.Media_Fibra >= 10.target.home.3.tier2 %}
+                                                <td height="35" bgcolor="lightblue"style="text-align: center;vertical-align: middle">{{ ivr.Media_Fibra|floatformat:2 }}</td>
+                                            {% elif ivr.Media_Fibra >= 10.target.home.3.tier1 %}
+                                                <td height="35" bgcolor="lightgreen"style="text-align: center;vertical-align: middle">{{ ivr.Media_Fibra|floatformat:2 }}</td>
+                                            {% elif ivr.Media_Fibra >= 10.target.home.3.tgt %}
+                                                <td height="35" bgcolor="pink"style="text-align: center;vertical-align: middle">{{ ivr.Media_Fibra|floatformat:2 }}</td>
+                                            {% else %}
+                                                <td height="35" bgcolor="red"style="text-align: center;vertical-align: middle"><font color="white">{{ ivr.Media_Fibra|floatformat:2 }}</font></td>
+                                            {% endif %}
+                                        </tr>
+                                    {% endfor %}
+                                {% endfor %}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-lg-1">
+                </div>
+                <div class="col-lg-5"> <!-- OFFICE OLD IVR TABLE MONTH -->
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th bgcolor="red" style="text-align: left;vertical-align: middle" colspan="9"><font color="white">191 OFFICE</font></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                            {% for row in 6.htmlth.191new %}
+                                <td height="35" bgcolor="lightgrey"style="text-align: center;font-weight: bold;vertical-align: middle">{{ row }}</td>
+                            {% endfor %}
+                            </tr>
+                            <tr>
+                                {% for ivrs in 1.ivrsmonth.ced_c87_ivr_191 %}
+                                    {% for ivr in ivrs %}
+                                        <tr>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Interviste_Valide }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Interviste_NV }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Media_DD4|floatformat:2 }}</td>
+                                            {% if 10.target.office.0.tier3 == 0 %}
+                                                <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Media_DD7|floatformat:2 }}</td>
+                                            {% elif ivr.Media_DD7 >= 10.target.office.0.tier3 %}
+                                                <td height="35" bgcolor="blue"style="text-align: center;vertical-align: middle"><font color="white">{{ ivr.Media_DD7|floatformat:2 }}</font></td>
+                                            {% elif ivr.Media_DD7 >= 10.target.office.0.tier2 %}
+                                                    <td height="35" bgcolor="lightblue"style="text-align: center;vertical-align: middle">{{ ivr.Media_DD7|floatformat:2 }}</td>
+                                            {% elif ivr.Media_DD7 >= 10.target.office.0.tier1 %}
+                                                <td height="35" bgcolor="lightgreen"style="text-align: center;vertical-align: middle">{{ ivr.Media_DD7|floatformat:2 }}</td>
+                                            {% elif ivr.Media_DD7 >= 10.target.office.0.tgt %}
+                                                <td height="35" bgcolor="pink"style="text-align: center;vertical-align: middle">{{ ivr.Media_DD7|floatformat:2 }}</td>
+                                            {% else %}
+                                                <td height="35" bgcolor="red"style="text-align: center;vertical-align: middle"><font color="white">{{ ivr.Media_DD7|floatformat:2 }}</font></td>
+                                            {% endif %}
+
+                                            {% if 10.target.office.1.tier3 == 0 %}
+                                                <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Media_Fonia_Adsl|floatformat:2 }}</td>
+                                            {% elif ivr.Media_Fonia_Adsl >= 10.target.office.1.tier3 %}
+                                                <td height="35" bgcolor="blue"style="text-align: center;vertical-align: middle"><font color="white">{{ ivr.Media_Fonia_Adsl|floatformat:2 }}</font></td>
+                                            {% elif ivr.Media_Fonia_Adsl >= 10.target.office.1.tier2 %}
+                                                    <td height="35" bgcolor="lightblue"style="text-align: center;vertical-align: middle">{{ ivr.Media_Fonia_Adsl|floatformat:2 }}</td>
+                                            {% elif ivr.Media_Fonia_Adsl >= 10.target.office.1.tier1 %}
+                                                <td height="35" bgcolor="lightgreen"style="text-align: center;vertical-align: middle">{{ ivr.Media_Fonia_Adsl|floatformat:2 }}</td>
+                                            {% elif ivr.Media_Fonia_Adsl >= 10.target.office.1.tgt %}
+                                                <td height="35" bgcolor="pink"style="text-align: center;vertical-align: middle">{{ ivr.Media_Fonia_Adsl|floatformat:2 }}</td>
+                                            {% else %}
+                                                <td height="35" bgcolor="red"style="text-align: center;vertical-align: middle"><font color="white">{{ ivr.Media_Fonia_Adsl|floatformat:2 }}</font></td>
+                                            {% endif %}
+                                            {% if 10.target.office.2.tier3 == 0 %}
+                                                <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Media_NGAN|floatformat:2 }}</td>
+                                            {% elif ivr.Media_NGAN >= 10.target.office.2.tier3 %}
+                                                <td height="35" bgcolor="blue"style="text-align: center;vertical-align: middle"><font color="white">{{ ivr.Media_NGAN|floatformat:2 }}</font></td>
+                                            {% elif ivr.Media_NGAN >= 10.target.office.2.tier2 %}
+                                                    <td height="35" bgcolor="lightblue"style="text-align: center;vertical-align: middle">{{ ivr.Media_NGAN|floatformat:2 }}</td>
+                                            {% elif ivr.Media_NGAN >= 10.target.office.2.tier1 %}
+                                                <td height="35" bgcolor="lightgreen"style="text-align: center;vertical-align: middle">{{ ivr.Media_NGAN|floatformat:2 }}</td>
+                                            {% elif ivr.Media_NGAN >= 10.target.office.2.tgt %}
+                                                <td height="35" bgcolor="pink"style="text-align: center;vertical-align: middle">{{ ivr.Media_NGAN|floatformat:2 }}</td>
+                                            {% else %}
+                                                <td height="35" bgcolor="red"style="text-align: center;vertical-align: middle"><font color="white">{{ ivr.Media_NGAN|floatformat:2 }}</font></td>
+                                            {% endif %}
+                                        </tr>
+                                    {% endfor %}
+                                {% endfor %}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class ="col-sm-12">
+                        <div class="alert alert-warning" style="text-align: center;font-weight: bold;">
+                            {{ 4.info }}
+                        </div>
+                    </div>
+                </div>
+            <!-- HOME OLD IVR TABLE WEEK -->
+                <div class="col-lg-2"> <!-- HOME OLD IVR TABLE WEEK -->
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th bgcolor="red" style="text-align: left;vertical-align: middle" colspan="9"><font color="white">SETTIMANALE</font></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                {% for row in 6.htmlth.int %}
+                                    <td height="57" bgcolor="lightgrey"style="text-align: center;font-weight: bold;vertical-align: middle">{{ row }}</td>
+                                {% endfor %}
+                            </tr>
+                            <tr>
+                                {% for ivrs in 2.ivrsweek.ced_c87_ivr_187 %}
+                                    {% for ivr in ivrs %}
+                                        <tr>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Periodo }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Gruppo }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endfor %}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-lg-5"> <!-- HOME OLD IVR TABLE -->
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th bgcolor="red" style="text-align: left;vertical-align: middle" colspan="9"><font color="white">187 HOME</font></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                {% for row in 6.htmlth.187new %}
+                                    <td height="35" bgcolor="lightgrey"style="text-align: center;font-weight: bold;vertical-align: middle">{{ row }}</td>
+                                {% endfor %}
+                            </tr>
+                            <tr>
+                                {% for ivrs in 2.ivrsweek.ced_c87_ivr_187 %}
+                                        {% for ivr in ivrs %}
+                                            <tr>
+                                                <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Interviste_Valide }}</td>
+                                                <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Interviste_NV }}</td>
+                                                <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Media_DD4|floatformat:2 }}</td>
+                                                {% if 10.target.home.0.tier3 == 0 %}
+                                                    <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Media_DD7|floatformat:2 }}</td>
+                                                {% elif ivr.Media_DD7 >= 10.target.home.0.tier3 %}
+                                                    <td height="35" bgcolor="blue"style="text-align: center;vertical-align: middle"><font color="white">{{ ivr.Media_DD7|floatformat:2 }}</font></td>
+                                                {% elif ivr.Media_DD7 >= 10.target.home.0.tier2 %}
+                                                    <td height="35" bgcolor="lightblue"style="text-align: center;vertical-align: middle">{{ ivr.Media_DD7|floatformat:2 }}</td>
+                                                {% elif ivr.Media_DD7 >= 10.target.home.0.tier1 %}
+                                                    <td height="35" bgcolor="lightgreen"style="text-align: center;vertical-align: middle">{{ ivr.Media_DD7|floatformat:2 }}</td>
+                                                {% elif ivr.Media_DD7 >= 10.target.home.0.tgt %}
+                                                    <td height="35" bgcolor="pink"style="text-align: center;vertical-align: middle">{{ ivr.Media_DD7|floatformat:2 }}</td>
+                                                {% else %}
+                                                    <td height="35" bgcolor="red"style="text-align: center;vertical-align: middle"><font color="white">{{ ivr.Media_DD7|floatformat:2 }}</font></td>
+                                                {% endif %}
+                                                {% if 10.target.home.1.tier3 == 0 %}
+                                                    <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Media_Fonia|floatformat:2 }}</td>
+                                                {% elif ivr.Media_Fonia >= 10.target.home.1.tier3 %}
+                                                    <td height="35" bgcolor="blue"style="text-align: center;vertical-align: middle"><font color="white">{{ ivr.Media_Fonia|floatformat:2 }}</font></td>
+                                                {% elif ivr.Media_Fonia >= 10.target.home.1.tier2 %}
+                                                    <td height="35" bgcolor="lightblue"style="text-align: center;vertical-align: middle">{{ ivr.Media_Fonia|floatformat:2 }}</td>
+                                                {% elif ivr.Media_Fonia >= 10.target.home.1.tier1 %}
+                                                    <td height="35" bgcolor="lightgreen"style="text-align: center;vertical-align: middle">{{ ivr.Media_Fonia|floatformat:2 }}</td>
+                                                {% elif ivr.Media_Fonia >= 10.target.home.1.tgt %}
+                                                    <td height="35" bgcolor="pink"style="text-align: center;vertical-align: middle">{{ ivr.Media_Fonia|floatformat:2 }}</td>
+                                                {% else %}
+                                                    <td height="35" bgcolor="red"style="text-align: center;vertical-align: middle"><font color="white">{{ ivr.Media_Fonia|floatformat:2 }}</font></td>
+                                                {% endif %}
+
+                                                {% if 10.target.home.2.tier3 == 0 %}
+                                                    <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Media_Adsl|floatformat:2 }}</td>
+                                                {% elif ivr.Media_Adsl >= 10.target.home.2.tier3 %}
+                                                    <td height="35" bgcolor="blue"style="text-align: center;vertical-align: middle"><font color="white">{{ ivr.Media_Adsl|floatformat:2 }}</font></td>
+                                                {% elif ivr.Media_Adsl >= 10.target.home.2.tier2 %}
+                                                    <td height="35" bgcolor="lightblue"style="text-align: center;vertical-align: middle">{{ ivr.Media_Adsl|floatformat:2 }}</td>
+                                                {% elif ivr.Media_Adsl >= 10.target.home.2.tier1 %}
+                                                    <td height="35" bgcolor="lightgreen"style="text-align: center;vertical-align: middle">{{ ivr.Media_Adsl|floatformat:2 }}</td>
+                                                {% elif ivr.Media_Adsl >= 10.target.home.2.tgt %}
+                                                    <td height="35" bgcolor="pink"style="text-align: center;vertical-align: middle">{{ ivr.Media_Adsl|floatformat:2 }}</td>
+                                                {% else %}
+                                                    <td height="35" bgcolor="red"style="text-align: center;vertical-align: middle"><font color="white">{{ ivr.Media_Adsl|floatformat:2 }}</font></td>
+                                                {% endif %}
+
+                                                {% if 10.target.home.3.tier3 == 0 %}
+                                                    <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Media_Fibra|floatformat:2 }}</td>
+                                                {% elif ivr.Media_Fibra >= 10.target.home.3.tier3 %}
+                                                    <td height="35" bgcolor="blue"style="text-align: center;vertical-align: middle"><font color="white">{{ ivr.Media_Fibra|floatformat:2 }}</font></td>
+                                                {% elif ivr.Media_Fibra >= 10.target.home.3.tier2 %}
+                                                    <td height="35" bgcolor="lightblue"style="text-align: center;vertical-align: middle">{{ ivr.Media_Fibra|floatformat:2 }}</td>
+                                                {% elif ivr.Media_Fibra >= 10.target.home.3.tier1 %}
+                                                    <td height="35" bgcolor="lightgreen"style="text-align: center;vertical-align: middle">{{ ivr.Media_Fibra|floatformat:2 }}</td>
+                                                {% elif ivr.Media_Fibra >= 10.target.home.3.tgt %}
+                                                    <td height="35" bgcolor="pink"style="text-align: center;vertical-align: middle">{{ ivr.Media_Fibra|floatformat:2 }}</td>
+                                                {% else %}
+                                                    <td height="35" bgcolor="red"style="text-align: center;vertical-align: middle"><font color="white">{{ ivr.Media_Fibra|floatformat:2 }}</font></td>
+                                                {% endif %}
+
+                                            </tr>
+                                        {% endfor %}
+                                {% endfor %}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-lg-1">
+                </div>
+                <div class="col-lg-5"> <!-- OFFICE OLD IVR TABLE -->
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th bgcolor="red" style="text-align: left;vertical-align: middle" colspan="9"><font color="white">191 OFFICE</font></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                {% for row in 6.htmlth.191new %}
+                                    <td height="35" bgcolor="lightgrey"style="text-align: center;font-weight: bold;vertical-align: middle">{{ row }}</td>
+                                {% endfor %}
+                            </tr>
+                            <tr>
+                                {% for ivrs in 2.ivrsweek.ced_c87_ivr_191 %}
+                                        {% for ivr in ivrs %}
+                                            <tr>
+                                                <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Interviste_Valide }}</td>
+                                                <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Interviste_NV }}</td>
+                                                <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Media_DD4|floatformat:2 }}</td>
+                                                {% if 10.target.office.0.tier3 == 0 %}
+                                                    <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Media_DD7|floatformat:2 }}</td>
+                                                {% elif ivr.Media_DD7 >= 10.target.office.0.tier3 %}
+                                                    <td height="35" bgcolor="blue"style="text-align: center;vertical-align: middle"><font color="white">{{ ivr.Media_DD7|floatformat:2 }}</font></td>
+                                                {% elif ivr.Media_DD7 >= 10.target.office.0.tier2 %}
+                                                    <td height="35" bgcolor="lightblue"style="text-align: center;vertical-align: middle">{{ ivr.Media_DD7|floatformat:2 }}</td>
+                                                {% elif ivr.Media_DD7 >= 10.target.office.0.tier1 %}
+                                                    <td height="35" bgcolor="lightgreen"style="text-align: center;vertical-align: middle">{{ ivr.Media_DD7|floatformat:2 }}</td>
+                                                {% elif ivr.Media_DD7 >= 10.target.office.0.tgt %}
+                                                    <td height="35" bgcolor="pink"style="text-align: center;vertical-align: middle">{{ ivr.Media_DD7|floatformat:2 }}</td>
+                                                {% else %}
+                                                    <td height="35" bgcolor="red"style="text-align: center;vertical-align: middle"><font color="white">{{ ivr.Media_DD7|floatformat:2 }}</font></td>
+                                                {% endif %}
+
+                                                {% if 10.target.office.1.tier3 == 0 %}
+                                                    <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Media_Fonia_Adsl|floatformat:2 }}</td>
+                                                {% elif ivr.Media_Fonia_Adsl >= 10.target.office.1.tier3 %}
+                                                    <td height="35" bgcolor="blue"style="text-align: center;vertical-align: middle"><font color="white">{{ ivr.Media_Fonia_Adsl|floatformat:2 }}</font></td>
+                                                {% elif ivr.Media_Fonia_Adsl >= 10.target.office.1.tier2 %}
+                                                    <td height="35" bgcolor="lightblue"style="text-align: center;vertical-align: middle">{{ ivr.Media_Fonia_Adsl|floatformat:2 }}</td>
+                                                {% elif ivr.Media_Fonia_Adsl >= 10.target.office.1.tier1 %}
+                                                    <td height="35" bgcolor="lightgreen"style="text-align: center;vertical-align: middle">{{ ivr.Media_Fonia_Adsl|floatformat:2 }}</td>
+                                                {% elif ivr.Media_Fonia_Adsl >= 10.target.office.1.tgt %}
+                                                    <td height="35" bgcolor="pink"style="text-align: center;vertical-align: middle">{{ ivr.Media_Fonia_Adsl|floatformat:2 }}</td>
+                                                {% else %}
+                                                    <td height="35" bgcolor="red"style="text-align: center;vertical-align: middle"><font color="white">{{ ivr.Media_Fonia_Adsl|floatformat:2 }}</font></td>
+                                                {% endif %}
+                                                {% if 10.target.office.2.tier3 == 0 %}
+                                                    <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Media_NGAN|floatformat:2 }}</td>
+                                                {% elif ivr.Media_NGAN >= 10.target.office.2.tier3 %}
+                                                    <td height="35" bgcolor="blue"style="text-align: center;vertical-align: middle"><font color="white">{{ ivr.Media_NGAN|floatformat:2 }}</font></td>
+                                                {% elif ivr.Media_NGAN >= 10.target.office.2.tier2 %}
+                                                        <td height="35" bgcolor="lightblue"style="text-align: center;vertical-align: middle">{{ ivr.Media_NGAN|floatformat:2 }}</td>
+                                                {% elif ivr.Media_NGAN >= 10.target.office.2.tier1 %}
+                                                    <td height="35" bgcolor="lightgreen"style="text-align: center;vertical-align: middle">{{ ivr.Media_NGAN|floatformat:2 }}</td>
+                                                {% elif ivr.Media_NGAN >= 10.target.office.2.tgt %}
+                                                    <td height="35" bgcolor="pink"style="text-align: center;vertical-align: middle">{{ ivr.Media_NGAN|floatformat:2 }}</td>
+                                                {% else %}
+                                                    <td height="35" bgcolor="red"style="text-align: center;vertical-align: middle"><font color="white">{{ ivr.Media_NGAN|floatformat:2 }}</font></td>
+                                                {% endif %}
+                                            </tr>
+                                        {% endfor %}
+                                {% endfor %}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="Quantitativo" class="tab-pane fade">
+                <div class="col-lg-12"> <!-- HOME OLD IVR TABLE MONTH -->
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th bgcolor="red" style="text-align: left;vertical-align: middle" colspan="14"><font color="white">MENSILE 187 HOME</font></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                {% for row in 6.htmlth.quant %}
+                                    <td height="35" bgcolor="lightgrey"style="text-align: center;font-weight: bold;font-weight: bold;vertical-align: middle">{{ row }}</td>
+                                {% endfor %}
+                            </tr>
+                            <tr>
+                                {% for ivrs in 1.ivrsmonth.ced_c87_ivr_187 %}
+                                    <tr>
+                                        {% for ivr in ivrs %}
+                                            <tr>
+                                                <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Periodo }}</td>
+                                                <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Gruppo }}</td>
+                                                <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Interviste_Valide }}</td>
+                                                <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Interviste_NV }}</td>
+                                                <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_1 }}</td>
+                                                <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_2 }}</td>
+                                                <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_3 }}</td>
+                                                <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_4 }}</td>
+                                                <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_5 }}</td>
+                                                <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_6 }}</td>
+                                                <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_7 }}</td>
+                                                <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_8 }}</td>
+                                                <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_9 }}</td>
+                                                <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_10 }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tr>
+                                {% endfor %}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-lg-12"> <!-- HOME OLD IVR TABLE MONTH -->
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th bgcolor="red" style="text-align: left;vertical-align: middle" colspan="14"><font color="white">MENSILE 191 OFFICE</font></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                {% for row in 6.htmlth.quant %}
+                                    <td height="35" bgcolor="lightgrey"style="text-align: center;font-weight: bold;vertical-align: middle">{{ row }}</td>
+                                {% endfor %}
+                            </tr>
+                            <tr>
+                                {% for ivrs in 1.ivrsmonth.ced_c87_ivr_191 %}
+                                    {% for ivr in ivrs %}
+                                        <tr>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Periodo }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Gruppo }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Interviste_Valide }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Interviste_NV }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_1 }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_2 }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_3 }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_4 }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_5 }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_6 }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_7 }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_8 }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_9 }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_10 }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endfor %}
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="alert alert-warning" style="text-align: center;font-weight: bold;">
+                        {{ 4.info }}
+                    </div>
+                </div>
+            <!-- HOME OLD IVR TABLE WEEK -->
+                <div class="col-lg-12"> <!-- HOME OLD IVR TABLE -->
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th bgcolor="red" style="text-align: left;vertical-align: middle" colspan="14"><font color="white">SETTIMANALE 187 HOME</font></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                {% for row in 6.htmlth.quant %}
+                                    <td height="35" bgcolor="lightgrey"style="text-align: center;font-weight: bold;vertical-align: middle">{{ row }}</td>
+                                {% endfor %}
+                            </tr>
+                            <tr>
+                            {% for ivrs in 2.ivrsweek.ced_c87_ivr_187 %}
+                                    {% for ivr in ivrs %}
+                                        <tr>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Periodo }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Gruppo }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Interviste_Valide }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Interviste_NV }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_1 }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_2 }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_3 }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_4 }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_5 }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_6 }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_7 }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_8 }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_9 }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_10 }}</td>
+                                        </tr>
+                                    {% endfor %}
+                            {% endfor %}
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th bgcolor="red" style="text-align: left;vertical-align: middle" colspan="14"><font color="white">SETTIMANALE 191 OFFICE</font></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                            {% for row in 6.htmlth.quant %}
+                                <td height="35" bgcolor="lightgrey"style="text-align: center;font-weight: bold;vertical-align: middle">{{ row }}</td>
+                            {% endfor %}
+                            </tr>
+                            <tr>
+                            {% for ivrs in 2.ivrsweek.ced_c87_ivr_191 %}
+                                    {% for ivr in ivrs %}
+                                        <tr>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Periodo }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Gruppo }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Interviste_Valide }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Interviste_NV }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_1 }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_2 }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_3 }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_4 }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_5 }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_6 }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_7 }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_8 }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_9 }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ivr.Voto_10 }}</td>
+                                        </tr>
+                                    {% endfor %}
+                            {% endfor %}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% endif %}
+        </div>
+</div>
+
+
+<script>
+$(document).ready(
+    function disable_date(){
+        if (document.getElementById("month").value == ""){
+            document.getElementById("date_to").disabled = false
+            document.getElementById("date_from").disabled = false
+        }else{
+            document.getElementById("date_to").disabled = true
+            document.getElementById("date_from").disabled = true
+            }
+    })
+
+function disable_date(){
+    if (document.getElementById("month").value == ""){
+        document.getElementById("date_to").disabled = false
+        document.getElementById("date_from").disabled = false
+    }else{
+        document.getElementById("date_to").disabled = true
+        document.getElementById("date_from").disabled = true
+        }
+}
+
+var onetime = true;
+
+function myFunction()
+{
+        if (onetime === true)
+        {
+            onetime = false;
+            var x = document.getElementById("pbar");
+            if (x.style.display === "none")
+            {
+                x.style.display = "block";
+            }
+            else
+            {
+                x.style.display = "none";
+            }
+            var x = document.getElementById("data");
+            if (x.style.display === "none")
+            {
+                x.style.display = "block";
+            }
+            else
+            {
+                x.style.display = "none";
+            }
+        }
+}
+
+
+$('form').submit(function (event) {
+        if ($(this).hasClass('submitted')) {
+            event.preventDefault();
+        }
+        else {
+            $(this).find(':submit').html('<i>Attendi...</i>');
+            $(this).addClass('submitted');
+        }
+    });
+
+
+</script>
+{% endblock %}

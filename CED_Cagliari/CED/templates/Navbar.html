@@ -1,0 +1,49 @@
+ {% block navigation %}
+ <div class='navbar navbar-inverse navbar-fixed-top' role='navigation'>
+        <div class='container'>
+            <div class='navbar-header'>
+                <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse'>
+                    <span class='sr-only'>Toggle navigation</span>
+                    <span class='icon-bar'></span>
+                    <span class='icon-bar'></span>
+                    <span class='icon-bar'></span>
+                </button>
+                <a class='navbar-brand'>ENNOVA CED</a>
+            </div>
+            <div class='navbar-collapse collapse'>
+                <ul class='nav navbar-nav'>
+                    <li class='button'><a href={% url 'CED:index' %}>Home</a></li>
+                    <li class='dropdown'>
+                        <a href='{% url 'CED:under_constr' %}' class='dropdown-toggle' data-toggle='dropdown'>SOS Easy<b class='caret'></b></a>
+                        <ul class='dropdown-menu'>
+                            <li><a style="text-align: center;" href='{% url 'CED:sos_easy_paf' %}'>Produttività e PAF</a></li>
+                            <li><a style="text-align: center;" href='{% url 'CED:under_constr' %}'>Curva Chiamate</a></li>
+                            <li><a style="text-align: center;" href='{% url 'CED:under_constr' %}'>Dettaglio Fatturazione</a></li>
+                            <li><a style="text-align: center;" href='{% url 'CED:sos_easy_sms' %}'>Sondaggi</a></li>
+                        </ul>
+                    </li>
+                    <li class='dropdown'>
+                        <a href='{% url 'CED:under_constr' %}' class='dropdown-toggle' data-toggle='dropdown'>C87<b class='caret'></b></a>
+                        <ul class='dropdown-menu'>
+                            <li><a style="text-align: center;" href='{% url 'CED:under_constr' %}'>Report produttivita'</a></li>
+                            <li><a style="text-align: center;" href='{% url 'CED:kpi_ibia' %}'>IBIA</a></li>
+                            <li><a style="text-align: center;" href='{% url 'CED:kpi_c87' %}'><strong>KPI - Completo</strong></a></li>
+                            <li><a style="text-align: center;" href='{% url 'CED:richiamate' %}'>KPI - Richiamate</a></li>
+                            <li><a style="text-align: center;" href='{% url 'CED:opera' %}'>KPI - OpeRA</a></li>
+                            <li><a style="text-align: center;" href='{% url 'CED:ivr' %}'>KPI - IVR</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class='nav navbar-nav navbar-right'>
+                <li class='dropdown'>
+                    <a href='{% url 'CED:under_constr' %}' class='dropdown-toggle' data-toggle='dropdown'> {{ user.username }}<b class='caret'></b></a>
+                    <ul class='dropdown-menu'>
+                        <li><a style="text-align: center;" href="{% url 'password_reset' %}">Cambia password</a></li>
+                        <li><a style="text-align: center;" href="{% url 'logout' %}">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </div>
+	{% endblock %}

@@ -1,0 +1,25 @@
+[ 2018-11-23 16:39:33 ] Impossibile aggiornare ced_opera_sintesi_volumi_fe_home sulla tabella OpeRA - <class 'mysql.connector.errors.DatabaseError'> - 1290 (HY000): The MySQL server is running with the --secure-file-priv option so it cannot execute this statement
+
+[ 2018-11-23 17:04:54 ] Impossibile aggiornare ced_opera_sintesi_volumi_fe_home sulla tabella OpeRA - <class 'mysql.connector.errors.DatabaseError'> - 1290 (HY000): The MySQL server is running with the --secure-file-priv option so it cannot execute this statement
+[ 2018-11-23 17:08:27 ] Impossibile aggiornare ced_opera_sintesi_volumi_fe_home sulla tabella OpeRA - <class 'FileNotFoundError'> - [WinError 2] Impossibile trovare il file specificato: 'cleanOpeRAdf.csv'
+[ 2018-11-23 17:18:22 ] Impossibile aggiornare ced_opera_sintesi_volumi_fe_office sulla tabella OpeRA - <class 'mysql.connector.errors.DatabaseError'> - 29 (HY000): File 'C:\ProgramData\MySQL\MySQL Server 8.0\Uploads\cleanOpeRAdf.csv' not found (OS errno 2 - No such file or directory)
+[ 2018-11-23 17:25:19 ] Impossibile aggiornare ced_opera_sintesi_volumi_fe_home sulla tabella OpeRA - <class 'mysql.connector.errors.DatabaseError'> - 29 (HY000): File 'C:\ProgramData\MySQL\MySQL Server 8.0\Uploads\cleanOpeRAdf.csv' not found (OS errno 2 - No such file or directory)
+[ 2018-11-23 17:32:55 ] Impossibile aggiornare ced_opera_sintesi_volumi_fe_home sulla tabella OpeRA - <class 'mysql.connector.errors.DatabaseError'> - 29 (HY000): File 'C:\ProgramData\MySQL\MySQL Server 8.0\Uploads\cleanOpeRAdf.csv' not found (OS errno 2 - No such file or directory)
+[ 2018-11-23 17:37:20 ] Impossibile aggiornare ced_opera_sintesi_volumi_fe_home sulla tabella OpeRA - <class 'mysql.connector.errors.DatabaseError'> - 29 (HY000): File 'C:\ProgramData\MySQL\MySQL Server 8.0\Uploads\cleanOpeRAdf.csv' not found (OS errno 2 - No such file or directory)
+[ 2018-11-23 17:49:42 ] Impossibile recuperare dati su Paco/Ibia - .\image\opera_aperture.png non trovato
+[ 2018-11-23 17:49:46 ] Impossibile aggiornare ced_opera_sintesi_volumi_bo_home sulla tabella OpeRA - <class 'FileNotFoundError'> - [Errno 2] No such file or directory: 'C:\\Users\\Federico Calandra\\Downloads\\ReportSintesi Volumi BO MOI.xlsx'
+[ 2018-11-23 18:22:27 ] Impossibile aggiornare ced_opera_sintesi_volumi_bo_home sulla tabella OpeRA - <class 'FileNotFoundError'> - [Errno 2] No such file or directory: 'C:\\Users\\Federico Calandra\\Downloads\\ReportSintesi Volumi BO MOI.xlsx'
+[ 2018-11-23 18:27:24 ] Impossibile aggiornare ced_opera_sintesi_volumi_bo_home sulla tabella OpeRA - <class 'FileNotFoundError'> - [Errno 2] No such file or directory: 'C:\\Users\\Federico Calandra\\Downloads\\ReportSintesi Volumi BO MOI.xlsx'
+[ 2018-11-23 18:30:45 ] Impossibile aggiornare ced_opera_sintesi_volumi_bo_home sulla tabella OpeRA - <class 'FileNotFoundError'> - [Errno 2] No such file or directory: 'C:\\Users\\Federico Calandra\\Downloads\\ReportSintesi Volumi BO MOI.xlsx'
+[ 2018-11-27 10:25:00 ] Impossibile collegarsi a Opera - Host non raggiungibile o VPN KO 
+[ 2018-11-27 10:41:25 ] Impossibile recuperare dati su Paco/Ibia - .\image\opera_aperture.png non trovato
+[ 2018-11-27 10:41:29 ] Impossibile aggiornare ced_opera_sintesi_volumi_fe_office sulla tabella OpeRA - <class 'FileNotFoundError'> - [Errno 2] No such file or directory: 'C:\\Users\\Federico Calandra\\Downloads\\ReportSintesi Volumi FE MOI.xlsx'
+[ 2018-11-27 11:52:35 ] Impossibile aggiornare ced_c87_ivr_187 sulla tabella IVR - File non scaricato o illeggible 
+[ 2018-11-27 11:54:47 ] Impossibile aggiornare ced_c87_ivr_191 sulla tabella IVR - File non scaricato o illeggible 
+[ 2018-11-29 12:05:24 ] Sito Web Bloccato, riavvio automa 1  di 3 tentativi in corso
+Gruppo [ [] ] non registrato nel DB
+Gruppo [ [] ] non registrato nel DB
+[ 2018-11-29 12:31:19 ] Impossibile collegarsi a Richiamate - Host non raggiungibile o VPN KO 
+[ 2018-11-29 14:13:57 ] Sito Web Bloccato, riavvio automa 1  di 3 tentativi in corso
+[ 2018-11-29 14:26:52 ] Sito Web Bloccato, riavvio automa 1  di 3 tentativi in corso
+

@@ -1,0 +1,542 @@
+{% extends "base_generic.html" %}
+{% block content %}
+{% include "Navbar.html" %}
+<div class="container">
+    <div class="container">
+        <div class="panel panel-primary">
+            <div class="panel-heading" style="text-align: center;font-weight: bold;">Report KPI - Richiamate</div>
+            <div class="panel-body">
+                <form class="form" action="{% url "CED:richiamate" %}" method="post">{% csrf_token %}
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-2">
+                                <label>Anno:</label>
+                                    <select class="form-control" name="Year">
+                                        {% if 0.form.Year %}
+                                            <option selected="selected"> {{ 0.form.Year }} </option>
+                                        {% endif %}
+                                        <option value ="2018">2018</option>
+                                        <option value ="2019">2019</option>
+                                    </select>
+                            </div>
+                            <div class="col-lg-1">
+
+                            </div>
+                            <div class="col-lg-2">
+                                <label>Mese:</label>
+                                    <select onchange="disable_date()" class="form-control" id="month" name="month">
+                                        {% if 0.form.month %}
+                                            <option selected="selected"> {{ 0.form.month }} </option>
+                                        {% endif %}
+                                            <option value="">--Seleziona Data--</option>
+                                        {% for month in 2.months %}
+                                            {% if 0.form.month != month.name %}
+                                                <option value={{month.name}}>   {{month.name}}   </option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                            </div>
+                            <div class="col-lg-2">
+                                <label for="date_from">Data da:</label>
+                                <input type="date" class="form-control" id="date_from" name="date_from" value="{{ 0.form.date_from }}">
+                            </div>
+                            <div class="col-lg-2">
+                                <label for="date_from">Data a:</label>
+                                <input type="date" class="form-control" id="date_to" name="date_to" value="{{ 0.form.date_to }}">
+                            </div>
+                            <div class="col-lg-1">
+
+                            </div>
+                            <div class="col-lg-2">
+                                <label>Gruppo:</label>
+                                <select class="form-control" name="group">
+                                    {% if 0.form.group %}
+                                        <option selected="selected"> {{ 0.form.group }} </option>
+                                    {% endif %}
+                                    {% for group in 1.groups %}
+                                        {% if 0.form.group != group.BACINO %}
+                                            <option value={{group.BACINO}}>   {{group.BACINO}}   </option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <p></p>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-2 col-xs-6">
+                                <div class="btn-group">
+                                    <button class="btn btn-primary" type="submit" name="btn" value="1" style="width:160px">Dettaglio Richiamate</button>
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+
+                            </div>
+                            <div class="col-lg-4">
+
+                            </div>
+                            <div class="col-lg-2">
+
+                            </div>
+                            <div class="col-lg-2 col-xs-6">
+                                <div class="btn-group">
+                                    <button class="btn btn-primary" type="submit" name="btn" value="0" style="width:160px">Tabella Richiamate</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+<div class="container">
+        {% if 3.errors %}
+            {% if 3.errors.empty %}
+                <div class="alert alert-info" style="text-align: center;font-weight: bold;">
+                    {{ 3.errors.empty }}
+                </div>
+            {% elif 3.errors.date %}
+                <div class="alert alert-danger" style="text-align: center;font-weight: bold;">
+                    {{ 3.errors.date }}
+                </div>
+            {% endif %}
+        {% elif 5.richmonth.ced_paco_richiamate_fe_187 %}
+            <div class="tab-content">
+                    <div class= "row">
+                        <div class="col-lg-2">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th bgcolor="red" style="text-align: center;vertical-align: middle" colspan="9"><font color="white">MENSILE</font></th>
+                                    </tr>
+                                </thead>
+                                    <tbody>
+                                        <tr>
+                                        {% for row in 4.htmlth.int %}
+                                            <td height="57" bgcolor="lightgrey"  style="text-align: center;font-weight: bold;vertical-align: middle">{{ row }}</td>
+                                        {% endfor %}
+                                        </tr>
+                                        {% for period in 5.richmonth.ced_paco_richiamate_fe_187 %}
+                                            {% for periods in period %}
+                                                <tr>
+                                                    {% if periods.Tipo == "Semplici" %}
+                                                        <td height="35" bgcolor=""style="text-align: center;vertical-align: middle" rowspan="3">{{ periods.Periodo }}</td>
+                                                        <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ periods.Tipo }}</td>
+                                                    {% elif periods.Tipo == "M.Compl." %}
+                                                        <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ periods.Tipo }}</td>
+                                                    {% else %}
+                                                        <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ periods.Tipo }}</td>
+                                                    {% endif %}
+                                                </tr>
+                                            {% endfor %}
+                                        {% endfor %}
+                                    </tbody>
+                            </table>
+                        </div>
+                        <div class="col-lg-4">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th bgcolor="red" style="text-align: left;vertical-align: middle" colspan="9"><font color="white">RICHIAMATE 187</font></th>
+                                    </tr>
+                                </thead>
+                                    <tbody>
+                                        <tr>
+                                            {% for row in 4.htmlth.inte %}
+                                                <td height="35" bgcolor="lightgrey"style="text-align: center;font-weight: bold;vertical-align: middle">{{ row }}</td>
+                                            {% endfor %}
+                                        </tr>
+                                        <tr>
+                                        {% for rics in 5.richmonth.ced_paco_richiamate_fe_187 %}
+                                            {% for ric in rics %}
+                                                    <tr>
+                                                    <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ric.Chiamate }}</td>
+                                                    <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ric.Abbattute }}</td>
+                                                    <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg }}</td>
+                                                {% if ric.Tipo == "Semplici" %}
+                                                    {% if ric.Rich_3_gg_p >= 9.target.home.0.tgt and 9.target.home.0.tgt != 0 %}
+                                                        <td height="35" bgcolor="red" style="text-align: center;vertical-align: middle;color:white">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                    {% elif ric.Rich_3_gg_p >= 9.target.home.0.tier1 and 9.target.home.0.tier1 != 0 %}
+                                                        <td height="35" bgcolor="pink" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                    {% elif ric.Rich_3_gg_p >= 9.target.home.0.tier2 and 9.target.home.0.tier2 != 0 %}
+                                                        <td height="35" bgcolor="lightgreen" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                    {% elif ric.Rich_3_gg_p >= 9.target.home.0.tier3 and 9.target.home.0.tier3 != 0 %}
+                                                        <td height="35" bgcolor="lightblue" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                    {% elif ric.Rich_3_gg_p < 9.target.home.0.tier3 and 9.target.home.0.tier3 != 0 %}
+                                                        <td height="35" bgcolor="blue" style="text-align: center;vertical-align: middle;color:white">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                    {% else %}
+                                                        <td height="35" bgcolor="lightgreen" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                    {% endif %}
+                                                {% elif ric.Tipo == "M.Compl." %}
+                                                    {% if ric.Rich_3_gg_p >= 9.target.home.1.tgt and 9.target.home.1.tgt != 0 %}
+                                                        <td height="35" bgcolor="red" style="text-align: center;vertical-align: middle;color:white">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                    {% elif ric.Rich_3_gg_p >= 9.target.home.1.tier1 and 9.target.home.1.tier1 != 0 %}
+                                                        <td height="35" bgcolor="pink" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                    {% elif ric.Rich_3_gg_p >= 9.target.home.1.tier2 and 9.target.home.1.tier2 != 0 %}
+                                                        <td height="35" bgcolor="lightgreen" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                    {% elif ric.Rich_3_gg_p >= 9.target.home.1.tier3 and 9.target.home.1.tier3 != 0 %}
+                                                        <td height="35" bgcolor="lightblue" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                    {% elif ric.Rich_3_gg_p < 9.target.home.0.tier3 and 9.target.home.1.tier3 != 0 %}
+                                                        <td height="35" bgcolor="blue" style="text-align: center;vertical-align: middle;color:white">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                    {% else %}
+                                                        <td height="35" bgcolor="lightgreen" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                    {% endif %}
+                                                {% else %}
+                                                    {% if ric.Rich_3_gg_p >= 9.target.home.2.tgt and 9.target.home.2.tgt != 0 %}
+                                                        <td height="35" bgcolor="red" style="text-align: center;vertical-align: middle;color:white">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                    {% elif ric.Rich_3_gg_p >= 9.target.home.2.tier1 and 9.target.home.2.tier1 != 0 %}
+                                                        <td height="35" bgcolor="pink" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                    {% elif ric.Rich_3_gg_p >= 9.target.home.2.tier2 and 9.target.home.2.tier2 != 0 %}
+                                                        <td height="35" bgcolor="lightgreen" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                    {% elif ric.Rich_3_gg_p >= 9.target.home.2.tier3 and 9.target.home.2.tier3 != 0 %}
+                                                        <td height="35" bgcolor="lightblue" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                    {% elif ric.Rich_3_gg_p < 9.target.home.0.tier3 and 9.target.home.2.tier3 != 0 %}
+                                                        <td height="35" bgcolor="blue" style="text-align: center;vertical-align: middle;color:white">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                    {% else %}
+                                                        <td height="35" bgcolor="lightgreen" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                    {% endif %}
+                                                {% endif %}
+                                                    </tr>
+                                            {% endfor %}
+                                        {% endfor %}
+                                        </tr>
+                                    </tbody>
+                            </table>
+                        </div>
+                        <div class="col-lg-2">
+                            <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th bgcolor="red" style="text-align: center;vertical-align: middle" colspan="9"><font color="white">MENSILE</font></th>
+                                        </tr>
+                                    </thead>
+                                        <tbody>
+                                            <tr>
+                                            {% for row in 4.htmlth.int %}
+                                                <td height="57" bgcolor="lightgrey"style="text-align: center;font-weight: bold;vertical-align: middle">{{ row }}</td>
+                                            {% endfor %}
+                                            </tr>
+                                            <tr>
+                                                {% for rics in 5.richmonth.ced_paco_richiamate_fe_191 %}
+                                                    {% for ric in rics %}
+                                                        <tr>
+                                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ric.Periodo }}</td>
+                                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ric.Tipo }}</td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                {% endfor %}
+                                            </tr>
+                                        </tbody>
+                            </table>
+                        </div>
+                        <div class="col-lg-4">
+                            <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th bgcolor="red" style="text-align: left;vertical-align: middle" colspan="9"><font color="white">RICHIAMATE 191</font></th>
+                                        </tr>
+                                    </thead>
+                                        <tbody>
+                                             <tr>
+                                                  {% for row in 4.htmlth.inte %}
+                                                  <td height="35" bgcolor="lightgrey"style="text-align: center;font-weight: bold;vertical-align: middle">{{ row }}</td>
+                                                  {% endfor %}
+                                             </tr>
+                                             <tr>
+                                              {% for rics in 5.richmonth.ced_paco_richiamate_fe_191 %}
+                                                  {% for ric in rics %}
+                                                  <tr>
+                                                  <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ric.Chiamate }}</td>
+                                                  <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ric.Abbattute }}</td>
+                                                  <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg }}</td>
+                                                  {% if 11.contract.0.id == 1 %}
+                                                      {% if ric.Rich_3_gg_p >= 9.target.office.0.tgt and 9.target.office.0.tgt != 0 %}
+                                                        <td height="35" bgcolor="red" style="text-align: center;vertical-align: middle;color:white">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                      {% elif ric.Rich_3_gg_p >= 9.target.office.0.tier1 and 9.target.office.0.tier1 != 0 %}
+                                                        <td height="35" bgcolor="pink" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                      {% elif ric.Rich_3_gg_p >= 9.target.office.0.tier2 and 9.target.office.0.tier2 != 0 %}
+                                                        <td height="35" bgcolor="lightgreen" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                      {% elif ric.Rich_3_gg_p >= 9.target.office.0.tier3 and 9.target.office.0.tier3 != 0 %}
+                                                        <td height="35" bgcolor="lightblue" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                      {% elif ric.Rich_3_gg_p < 9.target.office.0.tier3 and 9.target.office.0.tier3 != 0 %}
+                                                          <td height="35" bgcolor="blue" style="text-align: center;vertical-align: middle;color:white">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                      {% else %}
+                                                        <td height="35" bgcolor="lightgreen" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                      {% endif %}
+                                                  {% else %}
+                                                        {% if ric.Tipo == "M.Compl." %}
+                                                            {% if ric.Rich_3_gg_p >= 9.target.office.0.tgt and 9.target.office.0.tgt != 0 %}
+                                                                <td height="35" bgcolor="red" style="text-align: center;vertical-align: middle;color:white">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                            {% elif ric.Rich_3_gg_p >= 9.target.office.0.tier1 and 9.target.office.0.tier1 != 0 %}
+                                                                <td height="35" bgcolor="pink" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                            {% elif ric.Rich_3_gg_p >= 9.target.office.0.tier2 and 9.target.office.0.tier2 != 0 %}
+                                                                <td height="35" bgcolor="lightgreen" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                            {% elif ric.Rich_3_gg_p >= 9.target.office.0.tier3 and 9.target.office.0.tier3 != 0 %}
+                                                                <td height="35" bgcolor="lightblue" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                            {% elif ric.Rich_3_gg_p < 9.target.office.0.tier3 and 9.target.office.0.tier3 != 0 %}
+                                                                <td height="35" bgcolor="blue" style="text-align: center;vertical-align: middle;color:white">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                            {% else %}
+                                                                <td height="35" bgcolor="lightgreen" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                            {% endif %}
+                                                        {% else %}
+                                                              {% if ric.Rich_3_gg_p >= 9.target.office.1.tgt and 9.target.office.1.tgt != 0 %}
+                                                                  <td height="35" bgcolor="red" style="text-align: center;vertical-align: middle;color:white">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                              {% elif ric.Rich_3_gg_p >= 9.target.office.1.tier1 and 9.target.office.1.tier1 != 0%}
+                                                                  <td height="35" bgcolor="pink" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                              {% elif ric.Rich_3_gg_p >= 9.target.office.1.tier2 and 9.target.office.1.tier2 != 0%}
+                                                                  <td height="35" bgcolor="lightgreen" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                              {% elif ric.Rich_3_gg_p >= 9.target.office.1.tier3 and 9.target.office.1.tier3 != 0%}
+                                                                  <td height="35" bgcolor="lightblue" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                              {% elif ric.Rich_3_gg_p < 9.target.office.1.tier3 and 9.target.office.1.tier3 != 0 %}
+                                                                  <td height="35" bgcolor="blue" style="text-align: center;vertical-align: middle;color:white">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                              {% else %}
+                                                                  <td height="35" bgcolor="lightgreen" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                              {% endif %}
+                                                        {% endif %}
+                                                    {% endif %}
+                                                   </tr>
+                                                  {% endfor %}
+                                              {% endfor %}
+                                           </tr>
+                                       </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <tr>
+                        <div class="alert alert-warning" style="text-align: center;font-weight: bold;">
+                            {{ 10.info }}
+                        </div>
+                    </tr>
+                    <div class= "row">
+                        <div class="col-lg-2">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th bgcolor="red" style="text-align: center;vertical-align: middle" colspan="9"><font color="white">SETTIMANALE</font></th>
+                                    </tr>
+                                </thead>
+                                    <tbody>
+                                        <tr>
+                                            {% for row in 4.htmlth.int %}
+                                                <td height="57" bgcolor="lightgrey"style="text-align: center;font-weight: bold;vertical-align: middle">{{ row }}</td>
+                                            {% endfor %}
+                                        </tr>
+                                        {% for period in 7.richweek.ced_paco_richiamate_fe_187 %}
+                                            {% for periods in period %}
+                                                <tr>
+                                                    {% if periods.Tipo == "Semplici" %}
+                                                    <td height="35" bgcolor=""style="text-align: center;vertical-align: middle" rowspan="3">{{ periods.Periodo }}</td>
+                                                    <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ periods.Tipo }}</td>
+                                                    {% elif periods.Tipo == "M.Compl." %}
+                                                    <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ periods.Tipo }}</td>
+                                                    {% else %}
+                                                    <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ periods.Tipo }}</td>
+                                                    {% endif %}
+                                                </tr>
+                                            {% endfor %}
+                                        {% endfor %}
+                                    </tbody>
+                            </table>
+                        </div>
+                        <div class="col-lg-4">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th bgcolor="red" style="text-align: left;vertical-align: middle" colspan="9"><font color="white">RICHIAMATE 187</font></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        {% for row in 4.htmlth.inte %}
+                                            <td height="35" bgcolor="lightgrey"style="text-align: center;font-weight: bold;vertical-align: middle">{{ row }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                    <tr>
+                                    {% for rics in 7.richweek.ced_paco_richiamate_fe_187 %}
+                                        {% for ric in rics %}
+                                            <tr>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ric.Chiamate }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ric.Abbattute }}</td>
+                                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg }}</td>
+                                            {% if ric.Tipo == "Semplici" %}
+                                                {% if ric.Rich_3_gg_p >= 9.target.home.0.tgt and 9.target.home.0.tgt != 0 %}
+                                                        <td height="35" bgcolor="red" style="text-align: center;vertical-align: middle;color:white">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                {% elif ric.Rich_3_gg_p >= 9.target.home.0.tier1 and 9.target.home.0.tier1 != 0 %}
+                                                        <td height="35" bgcolor="pink" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                {% elif ric.Rich_3_gg_p >= 9.target.home.0.tier2 and 9.target.home.0.tier2 != 0 %}
+                                                        <td height="35" bgcolor="lightgreen" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                {% elif ric.Rich_3_gg_p >= 9.target.home.0.tier3 and 9.target.home.0.tier3 != 0 %}
+                                                        <td height="35" bgcolor="lightblue" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                {% elif ric.Rich_3_gg_p < 9.target.home.0.tier3 and 9.target.home.0.tier3 != 0 %}
+                                                        <td height="35" bgcolor="blue" style="text-align: center;vertical-align: middle;color:white">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                {% else %}
+                                                        <td height="35" bgcolor="lightgreen" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                {% endif %}
+                                            {% elif ric.Tipo == "M.Compl." %}
+                                                {% if ric.Rich_3_gg_p >= 9.target.home.1.tgt and 9.target.home.1.tgt != 0 %}
+                                                        <td height="35" bgcolor="red" style="text-align: center;vertical-align: middle;color:white">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                {% elif ric.Rich_3_gg_p >= 9.target.home.1.tier1 and 9.target.home.1.tier1 != 0 %}
+                                                        <td height="35" bgcolor="pink" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                {% elif ric.Rich_3_gg_p >= 9.target.home.1.tier2 and 9.target.home.1.tier2 != 0 %}
+                                                        <td height="35" bgcolor="lightgreen" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                {% elif ric.Rich_3_gg_p >= 9.target.home.1.tier3 and 9.target.home.1.tier3 != 0%}
+                                                        <td height="35" bgcolor="lightblue" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                {% elif ric.Rich_3_gg_p < 9.target.home.1.tier3 and 9.target.home.1.tier3 != 0 %}
+                                                        <td height="35" bgcolor="blue" style="text-align: center;vertical-align: middle;color:white">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                {% else %}
+                                                        <td height="35" bgcolor="lightgreen" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                {% endif %}
+                                            {% else %}
+                                                {% if ric.Rich_3_gg_p >= 9.target.home.2.tgt and 9.target.home.2.tgt != 0 %}
+                                                        <td height="35" bgcolor="red" style="text-align: center;vertical-align: middle;color:white">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                {% elif ric.Rich_3_gg_p >= 9.target.home.2.tier1 and 9.target.home.2.tier1 != 0 %}
+                                                        <td height="35" bgcolor="pink" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                {% elif ric.Rich_3_gg_p >= 9.target.home.2.tier2 and 9.target.home.2.tier2 != 0 %}
+                                                        <td height="35" bgcolor="lightgreen" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                {% elif ric.Rich_3_gg_p >= 9.target.home.2.tier3 and 9.target.home.2.tier3 != 0 %}
+                                                        <td height="35" bgcolor="lightblue" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                {% elif ric.Rich_3_gg_p < 9.target.home.2.tier3 and 9.target.home.2.tier3 != 0 %}
+                                                        <td height="35" bgcolor="blue" style="text-align: center;vertical-align: middle;color:white">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                {% else %}
+                                                        <td height="35" bgcolor="lightgreen" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                {% endif %}
+                                            {% endif %}
+                                            </tr>
+                                         {% endfor %}
+                                    {% endfor %}
+                                    </tr>
+                            </table>
+                        </div>
+                        <div class="col-lg-2">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th bgcolor="red" style="text-align: center;vertical-align: middle" colspan="9"><font color="white">SETTIMANALE</font></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                    {% for row in 4.htmlth.int %}
+                                        <td height="57" bgcolor="lightgrey"style="text-align: center;font-weight: bold;vertical-align: middle">{{ row }}</td>
+                                    {% endfor %}
+                                    </tr>
+                                    <tr>
+                                        {% for rics in 7.richweek.ced_paco_richiamate_fe_191 %}
+                                            {% for ric in rics %}
+                                                <tr>
+                                                    <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ric.Periodo }}</td>
+                                                    <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ric.Tipo }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        {% endfor %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-lg-4">
+                            <table class="table table-bordered">
+                                      <thead>
+                                          <tr>
+                                              <th bgcolor="red" style="text-align: left;vertical-align: middle" colspan="9"><font color="white">RICHIAMATE 191</font></th>
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                          <tr>
+                                              {% for row in 4.htmlth.inte %}
+                                              <td height="35" bgcolor="lightgrey"style="text-align: center;font-weight: bold;vertical-align: middle">{{ row }}</td>
+                                              {% endfor %}
+                                          </tr>
+                                      </tbody>
+                                      <tr>
+                                          {% for rics in 7.richweek.ced_paco_richiamate_fe_191 %}
+                                              {% for ric in rics %}
+                                                  <tr>
+                                                  <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ric.Chiamate }}</td>
+                                                  <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ric.Abbattute }}</td>
+                                                  <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg }}</td>
+                                                  {% if 11.contract.0.id == 1 %}
+                                                          {% if ric.Rich_3_gg_p >= 9.target.office.0.tgt and 9.target.office.0.tgt != 0 %}
+                                                                  <td height="35" bgcolor="red" style="text-align: center;vertical-align: middle;color:white">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                          {% elif ric.Rich_3_gg_p >= 9.target.office.0.tier1 and 9.target.office.0.tier1 != 0 %}
+                                                                  <td height="35" bgcolor="pink" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                          {% elif ric.Rich_3_gg_p >= 9.target.office.0.tier2 and 9.target.office.0.tier2 != 0 %}
+                                                                  <td height="35" bgcolor="lightgreen" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                          {% elif ric.Rich_3_gg_p >= 9.target.office.0.tier3 and 9.target.office.0.tier3 != 0 %}
+                                                                  <td height="35" bgcolor="lightblue" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                          {% elif ric.Rich_3_gg_p < 9.target.office.0.tier3 and 9.target.office.0.tier3 != 0 %}
+                                                                  <td height="35" bgcolor="blue" style="text-align: center;vertical-align: middle;color:white">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                          {% else %}
+                                                                  <td height="35" bgcolor="lightgreen" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                          {% endif %}
+                                                 {% else %}
+                                                      {% if ric.Tipo == "M.Compl." %}
+                                                          {% if ric.Rich_3_gg_p >= 9.target.office.0.tgt and 9.target.office.0.tgt != 0 %}
+                                                              <td height="35" bgcolor="red" style="text-align: center;vertical-align: middle;color:white">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                          {% elif ric.Rich_3_gg_p >= 9.target.office.0.tier1 and 9.target.office.0.tier1 != 0 %}
+                                                              <td height="35" bgcolor="pink" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                          {% elif ric.Rich_3_gg_p >= 9.target.office.0.tier2 and 9.target.office.0.tier2 != 0 %}
+                                                              <td height="35" bgcolor="lightgreen" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                          {% elif ric.Rich_3_gg_p >= 9.target.office.0.tier3 and 9.target.office.0.tier3 != 0 %}
+                                                              <td height="35" bgcolor="lightblue" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                          {% elif ric.Rich_3_gg_p < 9.target.office.0.tier3 and 9.target.office.0.tier3 != 0 %}
+                                                              <td height="35" bgcolor="blue" style="text-align: center;vertical-align: middle;color:white">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                          {% else %}
+                                                              <td height="35" bgcolor="lightgreen" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                          {% endif %}
+                                                      {% else %}
+                                                          {% if ric.Rich_3_gg_p >= 9.target.office.1.tgt and 9.target.office.1.tgt != 0 %}
+                                                            <td height="35" bgcolor="red" style="text-align: center;vertical-align: middle;color:white">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                          {% elif ric.Rich_3_gg_p >= 9.target.office.1.tier1 and 9.target.office.1.tier1 != 0 %}
+                                                            <td height="35" bgcolor="pink" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                          {% elif ric.Rich_3_gg_p >= 9.target.office.1.tier2 and 9.target.office.1.tier2 != 0 %}
+                                                            <td height="35" bgcolor="lightgreen" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                          {% elif ric.Rich_3_gg_p >= 9.target.office.1.tier3 and 9.target.office.1.tier3 != 0 %}
+                                                            <td height="35" bgcolor="lightblue" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                          {% elif ric.Rich_3_gg_p < 9.target.office.1.tier3 and 9.target.office.1.tier3 != 0 %}
+                                                            <td height="35" bgcolor="blue" style="text-align: center;vertical-align: middle;color:white">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                          {% else %}
+                                                            <td height="35" bgcolor="lightgreen" style="text-align: center;vertical-align: middle">{{ ric.Rich_3_gg_p|floatformat:2 }} %</td>
+                                                          {% endif %}
+                                                      {% endif %}
+                                                {% endif %}
+                                                  </tr>
+                                              {% endfor %}
+                                          {% endfor %}
+                                     </tr>
+                            </table>
+                        </div>
+                    </div>
+            </div>
+        {% endif %}
+</div>
+
+<script>
+$(document).ready(
+    function disable_date(){
+        if (document.getElementById("month").value == ""){
+            document.getElementById("date_to").disabled = false
+            document.getElementById("date_from").disabled = false
+        }else{
+            document.getElementById("date_to").disabled = true
+            document.getElementById("date_from").disabled = true
+            }
+    })
+
+</script>
+<script>
+    function disable_date(){
+        if (document.getElementById("month").value == ""){
+            document.getElementById("date_to").disabled = false
+            document.getElementById("date_from").disabled = false
+        }else{
+            document.getElementById("date_to").disabled = true
+            document.getElementById("date_from").disabled = true
+            }
+    }
+
+</script>
+
+{% endblock %}

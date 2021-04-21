@@ -1,0 +1,322 @@
+{% extends "base_generic.html" %}
+{% block content %}
+{% include "Navbar.html" %}
+{% load static %}
+{% load humanize %}
+<div class="container">
+</div>
+<div class="container">
+    <div class="panel panel-primary">
+        <div class="panel-heading" style="text-align: center;">PAF - Fonte: IBIA</div>
+        <div class="panel-body">
+            <form class="form" onsubmit="myFunction()" id="form" action="{% url "CED:sos_easy_paf" %}" method="post">{% csrf_token %}
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <label>Anno:</label>
+                            <select class="form-control" name="year" title="form">
+                                {% if 7.form.year %}
+                                    <option selected="selected"> {{ 7.form.year }} </option>
+                                {% endif %}
+                                <option value="2018">   2018   </option>
+                                <option value="2019">   2019   </option>
+                            </select>
+                        </div>
+                        <div class="col-lg-4">
+
+                        </div>
+                        <div class="col-lg-4">
+
+                        </div>
+                        <div class="col-lg-2">
+                            <label for="month">Mese:</label>
+                            <select class="form-control" id="month" name="month">
+                                {% if 7.form.month %}
+                                    <option selected="selected"> {{ 7.form.month }} </option>
+                                {% endif %}
+                                {% for month in 4.months %}
+                                    {% if 7.form.month != month.name %}
+                                        <option value={{month.name}}>   {{month.name}}   </option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p></p>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2 col-xs-6">
+                            <div class="btn-group">
+                                <button class="btn btn-primary" type="submit" name="tablepaf" value="1" style="width:160px">Export .xlsx</button>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+
+                        </div>
+                        <div class="col-lg-2 col-xs-6">
+                        </div>
+                        <div class="col-lg-3">
+
+                        </div>
+                        <div class="col-lg-2 col-xs-6">
+                            <div class="btn-group">
+                                <button class="btn btn-primary" type="submit" name="tablepaf" value="0" style="width:160px">Visualizza PAF</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row" id="pbar" style="display: none">
+        <div class="col-lg-4">
+
+        </div>
+        <div class="col-lg-4">
+            <img  class="img-responsive center-block" src="{% static "app/img/loading.gif" %}" alt="">
+        </div>
+        <div class="col-lg-4">
+
+        </div>
+    </div>
+</div>
+<div id="data" style="display: block">
+
+<div class="row">
+
+    {% if 2.errors %}
+        <div class="container">
+            {% if 2.errors.empty %}
+                <div class="alert alert-info" style="text-align: center; font-weight: bold">
+                  {{ 2.errors.empty }}
+                </div>
+            {% elif 2.errors.date %}
+                <div class="alert alert-danger" style="text-align: center; font-weight: bold">
+                  {{ 2.errors.date }}
+                </div>
+            {% endif %}
+        </div>
+    {% elif 5.paf %}
+    <div class="col-lg-7">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th bgcolor="red" style="text-align: center;vertical-align: middle;width:200px;font-size:12px;color:white" colspan="4">Riepilogo Commessa Telecom AT Pay</th>
+                    <th bgcolor="red" style="text-align: center;vertical-align: middle;width:200px;font-size:12px;color:white" colspan="2">Previsioni a Finire</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td bgcolor="" style="text-align: center;vertical-align: middle;font-size:12px; font-weight: bold">Supervisor: </td>
+                    <td bgcolor="" style="text-align: center;vertical-align: middle;font-size:12px">{{ 9.svdata.0.surname }}</td>
+                    <td bgcolor="" style="text-align: center;vertical-align: middle;font-size:12px; font-weight: bold">Obiettivo (pezzi): </td>
+                    <td bgcolor="" style="text-align: center;vertical-align: middle;font-size:12px"></td>
+                    <td bgcolor="" style="text-align: center;vertical-align: middle;font-size:12px; font-weight: bold">Pezzi: </td>
+                    <td bgcolor="" style="text-align: center;vertical-align: middle;font-size:12px">{{ 5.paf.total.preventivato_pezzi }}</td>
+                </tr>
+                <tr>
+                    <td bgcolor="" style="text-align: center;vertical-align: middle;font-size:12px; font-weight: bold">Progress al: </td>
+                    <td bgcolor="" style="text-align: center;vertical-align: middle;font-size:12px">{{ 5.paf.total.progress }}</td>
+                    <td bgcolor="" style="text-align: center;vertical-align: middle;font-size:12px; font-weight: bold">Obiettivo (€): </td>
+                    <td bgcolor="" style="text-align: center;vertical-align: middle;font-size:12px"></td>
+                    <td bgcolor="" style="text-align: center;vertical-align: middle;font-size:12px; font-weight: bold">Fatturato: </td>
+                    <td bgcolor="" style="text-align: center;vertical-align: middle;font-size:12px">€ {{ 5.paf.total.preventivato_euro|intcomma }}</td>
+                </tr>
+                <tr>
+                    <td bgcolor="" style="text-align: center;vertical-align: middle;font-size:12px; font-weight: bold"" colspan="2">Quota Accantonamento</td>
+                    <td bgcolor="" style="text-align: center;vertical-align: middle;font-size:12px; font-weight: bold"">Consuntivo (pezzi): </td>
+                    <td bgcolor="" style="text-align: center;vertical-align: middle;font-size:12px">{{ 5.paf.total.consuntivato_pezzi }}</td>
+                    <td bgcolor="" style="text-align: center;vertical-align: middle;font-size:12px; font-weight: bold"">Costi: </td>
+                    <td bgcolor="" style="text-align: center;vertical-align: middle;font-size:12px"></td>
+                </tr>
+                <tr>
+                    <td bgcolor="" style="text-align: center;vertical-align: middle;font-size:12px" colspan="2">€ {{ 5.paf.total.quota_accantonamento|intcomma }}</td>
+                    <td bgcolor="" style="text-align: center;vertical-align: middle;font-size:12px; font-weight: bold"">Consuntivo (€): </td>
+                    <td bgcolor="" style="text-align: center;vertical-align: middle;font-size:12px">€ {{ 5.paf.total.consuntivato_euro|intcomma }}</td>
+                    <td bgcolor="" style="text-align: center;vertical-align: middle;font-size:12px; font-weight: bold"">Margine: </td>
+                    <td bgcolor="" style="text-align: center;vertical-align: middle;font-size:12px"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-lg-1">
+    </div>
+    <div class="col-lg-4">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th bgcolor="red" style="text-align: center;vertical-align: middle;width:100px;font-size:12px;color: white" colspan="9">Media settimanale</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td bgcolor="lightgrey" style="text-align: center;vertical-align: middle;font-size:12px"></td>
+                    {% for day in 8.days %}
+                        <td bgcolor="lightgrey" style="text-align: center;vertical-align: middle;font-size:12px; font-weight: bold"">{{ day.initials }}</td>
+                    {% endfor %}
+                    <td bgcolor="lightgrey" style="text-align: center;vertical-align: middle;font-size:12px; font-weight: bold"">Totale</td>
+                </tr>
+                <tr>
+                    <td bgcolor="" style="text-align: center;vertical-align: middle;font-size:12px; font-weight: bold"">Distr. Vol.</td>
+                    {% for avg in 5.paf.total.week %}
+                        <td bgcolor="" style="text-align: center;vertical-align: middle;font-size:12px">{{ avg|floatformat:0 }} %</td>
+                    {% endfor %}
+                    <td bgcolor="" style="text-align: center;vertical-align: middle;font-size:12px"></td>
+                </tr>
+                {% for paf in 5.paf.tkts %}
+                    <tr>
+                        <td bgcolor="" style="text-align: center;vertical-align: middle;font-size:12px; font-weight: bold"">{{ paf.service }}</td>
+                        {% for avg in paf.week %}
+                            <td bgcolor="" style="text-align: center;vertical-align: middle;font-size:12px">{{ avg.avg }}</td>
+                        {% endfor %}
+                        <td bgcolor="" style="text-align: center;vertical-align: middle;font-size:12px">{{ paf.weektotal }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th bgcolor="red" style="text-align: center;vertical-align: middle;font-size:12px;color: white" colspan= {{ 3.month.0.days|add:3 }} >CONSUNTIVO E PREVENTIVO</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td bgcolor="lightgrey" style="text-align: center;vertical-align: middle;font-size:10px;width:100px; font-weight: bold"">TIPO</td>
+                    <td bgcolor="lightgrey" style="text-align: center;vertical-align: middle;font-size:10px;width:70px; font-weight: bold"">PREZZO</td>
+                    {% for days in 5.paf.tkts.0.daily %}
+                        <td bgcolor="lightgrey" style="text-align: center;vertical-align: middle;font-size:10px; font-weight: bold"">{{ days.day }}</td>
+                    {% endfor %}
+                </tr>
+                {% for paf in 5.paf.tkts %}
+                    <tr>
+                        <td bgcolor="" style="text-align: center;vertical-align: middle;font-size:10px; font-weight: bold"">{{ paf.service }}</td>
+                        <td bgcolor="" style="text-align: center;vertical-align: middle;font-size:10px">€ {{ paf.tktvalue|floatformat:2 }}</td>
+                        {% for count in paf.daily %}
+                            <td bgcolor="{{ count.bg }}" style="text-align: center;vertical-align: middle;font-size:10px">{{ count.ok }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <table class="table table-bordered">
+            <thead>
+                <th bgcolor="red" style="text-align: center;vertical-align: middle;font-size:12px;color: white" colspan= {{ 3.month.0.days|add:3 }} >CONSUNTIVO</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td bgcolor="lightgrey" style="text-align: center;vertical-align: middle;font-size:10px;width:100px; font-weight: bold"">TIPO</td>
+                    <td bgcolor="lightgrey" style="text-align: center;vertical-align: middle;font-size:10px;width:70px; font-weight: bold"">PREZZO</td>
+                    {% for days in 5.paf.tkts.0.daily %}
+                        <td bgcolor="lightgrey" style="text-align: center;vertical-align: middle;font-size:10px; font-weight: bold"">{{ days.day }}</td>
+                    {% endfor %}
+                </tr>
+                {% for paf in 5.paf.tkts %}
+                    <tr>
+                        <td bgcolor="" style="text-align: center;vertical-align: middle;font-size:10px; font-weight: bold"">{{ paf.service }}</td>
+                        <td bgcolor="" style="text-align: center;vertical-align: middle;font-size:10px">€ {{ paf.tktvalue|floatformat:2 }}</td>
+                        {% for count in paf.daily %}
+                            {%if count.nday <= 5.paf.total.last_day %}
+                                <td bgcolor="{{ count.bg }}" style="text-align: center;vertical-align: middle;font-size:10px">{{ count.ok }}</td>
+                            {% else %}
+                                <td bgcolor="{{ count.bg }}" style="text-align: center;vertical-align: middle;font-size:10px">0</td>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <table class="table table-bordered">
+            <thead>
+                <th bgcolor="red" style="text-align: center;vertical-align: middle;font-size:12px;color: white" colspan= {{ 3.month.0.days|add:3 }} >PREVENTIVO</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td bgcolor="lightgrey" style="text-align: center;vertical-align: middle;font-size:10px;width:100px; font-weight: bold"">TIPO</td>
+                    <td bgcolor="lightgrey" style="text-align: center;vertical-align: middle;font-size:10px;width:70px; font-weight: bold"">PREZZO</td>
+                    {% for days in 5.paf.tkts.0.daily %}
+                        <td bgcolor="lightgrey" style="text-align: center;vertical-align: middle;font-size:10px; font-weight: bold"">{{ days.day }}</td>
+                    {% endfor %}
+                </tr>
+                {% for paf in 5.paf.tkts %}
+                    <tr>
+                        <td bgcolor="" style="text-align: center;vertical-align: middle;font-size:10px; font-weight: bold"">{{ paf.service }}</td>
+                        <td bgcolor="" style="text-align: center;vertical-align: middle;font-size:10px">€ {{ paf.tktvalue|floatformat:2 }}</td>
+                        {% for count in paf.daily %}
+                            {%if count.nday > 5.paf.total.last_day %}
+                                <td bgcolor="{{ count.bg }}" style="text-align: center;vertical-align: middle;font-size:10px">{{ count.ok }}</td>
+                            {% else %}
+                                <td bgcolor="{{ count.bg }}" style="text-align: center;vertical-align: middle;font-size:10px">0</td>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+</div>
+
+
+<script>
+var onetime = true;
+
+function myFunction()
+{
+        if (onetime === true)
+        {
+            onetime = false;
+            var x = document.getElementById("pbar");
+            if (x.style.display === "none")
+            {
+                x.style.display = "block";
+            }
+            else
+            {
+                x.style.display = "none";
+            }
+            var x = document.getElementById("data");
+            if (x.style.display === "none")
+            {
+                x.style.display = "block";
+            }
+            else
+            {
+                x.style.display = "none";
+            }
+        }
+}
+
+
+$('form').submit(function (event) {
+        if ($(this).hasClass('submitted')) {
+            event.preventDefault();
+        }
+        else {
+            $(this).find(':submit').html('<i>Attendi...</i>');
+            $(this).addClass('submitted');
+        }
+    });
+
+
+
+</script>
+{% endblock %}

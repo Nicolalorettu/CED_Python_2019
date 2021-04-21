@@ -1,0 +1,173 @@
+{% extends "base_generic.html" %}
+{% block content %}
+{% load static %}
+   {% include 'Navbar.html' %}
+    <div class='container theme-showcase'>
+    <!-- Bootstrap core CSS -->
+        <body class='text-center'>
+            <div class='container'>
+                <img class='mb-4' src='{% static 'app/img/logo.png' %}' alt=''>
+                <h1 class='h3 mb-3 font-weight-normal'>Ennova Data Analisys - Overview</h1>
+                <br>
+                <div class='row'>
+                    <div class='col-sm-4'> <!-- col 1-->
+                        <div class='panel panel-info'> <!-- panel XME-->
+                            <div class='panel-heading'>
+                                <h3 class='panel-title' style="text-align: center;font-weight: bold;">OpeRA</h3>
+                            </div>
+                            <div class='panel-body'> <!-- panel body -->
+                                <form action='{% url 'CED:opera' %}' method='post'>{% csrf_token %}
+                                <button type='submit' name='status' value='4' class='btn-link btn'>
+                                <div align='center'>
+                                    <img src='{% static 'app/img/logo_opera2.png' %}' alt='Xme' width='200' height='120' class='block img-rounded'>
+                                </div>
+                                <!-- / image -->
+                                <div class='col-sm-4' style> <!-- recap -->
+                                    <div class = 'row' >
+                                        <h4 class='text-$typexme text-left' style="text-align: center;font-weight: bold;">Ultimo Update: {{ dates.OpeRA }}</h4>
+                                    </div>
+                                </div> <!-- / recap -->
+                                </button></form>
+                            </div> <!-- / panel body -->
+                        </div> <!-- / panel -->
+                        <div class='panel panel-info'> <!-- panel GIAP-->
+                            <div class='panel-heading'>
+                                <h3 class='panel-title' style="text-align: center;font-weight: bold;">Partite Varie</h3>
+                            </div>
+                            <div class='panel-body'> <!-- panel body -->
+                                <form action='{% url 'CED:under_constr' %}' method='post'>{% csrf_token %}
+                                <button type='submit' name='status' value='4' class='btn-link btn'>
+                                <div align='center'>
+                                    <img src='{% static 'app/img/giapv.png' %}' alt='GiaPVV' width='120' height='120' class='block img-rounded'>
+                                </div>
+                                <!-- / image -->
+                                <div class='col-sm-4' style> <!-- recap -->
+                                    <div class = 'row' >
+                                        <h4 class='text-info text-left' style="text-align: center;font-weight: bold;">Ultimo Update: 00/00/0000 00:00</h4>
+                                    </div>
+                                </div> <!-- / recap -->
+                                </button></form>
+                            </div> <!-- / panel body -->
+                            </div> <!-- / panel -->
+                            <div class='panel panel-info'> <!-- panel IBIA-->
+                                <div class='panel-heading'>
+                                    <h3 class='panel-title' style="text-align: center;font-weight: bold;">Ibia</h3>
+                                </div>
+                                <div class='panel-body'> <!-- panel body -->
+                                    <form action='{% url 'CED:under_constr' %}' method='post'>{% csrf_token %}
+                                    <button type='submit' name='status' value='4' class='btn-link btn'>
+                                    <div align='center'>
+                                        <img src='{% static 'app/img/dtb.png' %}' alt='CRM Justone' width='120' height='120' class='block img-rounded'>
+                                    </div>
+                                    <!-- / image -->
+                                    <div class='col-sm-4' style> <!-- recap -->
+                                        <div class = 'row' >
+                                            <h4 class='text-info text-left' style="text-align: center;font-weight: bold;">Ultimo Update: {{ dates.IBIA_SOS_EASY }}</h4>
+                                        </div>
+                                    </div> <!-- / recap -->
+                                    </button></form>
+                                </div> <!-- / panel body -->
+                            </div> <!-- / panel IBIA-->
+                        </div> <!-- / col 1-->
+                    <div class='col-sm-4'> <!-- col 2-->
+                        <div class='panel panel-info'> <!-- panel Amr-->
+                            <div class='panel-heading'>
+                                <h3 class='panel-title' style="text-align: center;font-weight: bold;">AM Ricavi</h3>
+                            </div>
+                            <div class='panel-body'> <!-- panel body -->
+                                <form action='{% url 'CED:under_constr' %}' method='post'>{% csrf_token %}
+                                <button type='submit' name='status' value='4' class='btn-link btn'>
+                                <div align='center'>
+                                    <img src='{% static 'app/img/dtb.png' %}' alt='AM Ricavi' width='120' height='120' class='block img-rounded'>
+                                </div>
+                                <!-- / image -->
+                                <div class='col-sm-4' style> <!-- recap -->
+                                    <div class = 'row' >
+                                        <h4 class='text-info text-left' style="text-align: center;font-weight: bold;">Ultimo Update: 00/00/0000 00:00</h4>
+                                    </div>
+                                </div> <!-- / recap -->
+                                </button></form>
+                            </div> <!-- / panel body -->
+                        </div> <!-- / panel -->
+                        <div class='panel panel-info'> <!-- panel CRM-->
+                            <div class='panel-heading'>
+                                <h3 class='panel-title' style="text-align: center;font-weight: bold;">CRM Justone</h3>
+                            </div>
+                            <div class='panel-body'> <!-- panel body -->
+                                <form action='{% url 'CED:under_constr' %}' method='post'>{% csrf_token %}
+                                <button type='submit' name='status' value='4' class='btn-link btn'>
+                                <div align='center'>
+                                    <img src='{% static 'app/img/dtb.png' %}' alt='CRM Justone' width='120' height='120' class='block img-rounded'>
+                                </div>
+                                <!-- / image -->
+                                <div class='col-sm-4' style> <!-- recap -->
+                                    <div class = 'row' >
+                                        <h4 class='text-info text-left' style="text-align: center;font-weight: bold;">Ultimo Update: 00/00/0000 00:00</h4>
+                                    </div>
+                                </div> <!-- / recap -->
+                                </button></form>
+                            </div> <!-- / panel body -->
+                        </div> <!-- / panel crm-->
+                    </div> <!-- / col 2-->
+                    <div class='col-sm-4'> <!-- col 3-->
+                        <div class='panel panel-info'> <!-- panel STS-->
+                            <div class='panel-heading'>
+                                <h3 class='panel-title' style="text-align: center;font-weight: bold;">Richiamate</h3>
+                            </div>
+                            <div class='panel-body'> <!-- panel body -->
+                                <form action='{% url 'CED:richiamate' %}' method='post'>{% csrf_token %}
+                                <button type='submit' name='status' value='4' class='btn-link btn'>
+                                <div align='center'>
+                                    <img src='{% static 'app/img/sts.png' %}' alt='C87 Recall' width='120' height='120' class='block img-rounded'>
+                                </div>
+                                <!-- / image -->
+                                <div class='col-sm-4' style> <!-- recap -->
+                                    <div class = 'row' >
+                                        <h4 class='text-info text-left' style="text-align: center;font-weight: bold;">Ultimo Update: 00/00/0000 00:00</h4>
+                                    </div>
+                                </div> <!-- / recap -->
+                                </button></form>
+                            </div> <!-- / panel body -->
+                        </div> <!-- / panel sts -->
+                        <div class='panel panel-info'> <!-- panel IVR-->
+                            <div class='panel-heading'>
+                                <h3 class='panel-title' style="text-align: center;font-weight: bold;">Sondaggi C87</h3>
+                            </div>
+                            <div class='panel-body'> <!-- panel body -->
+                                <form action='{% url 'CED:ivr' %}' method='post'>{% csrf_token %}
+                                <button type='submit' name='status' value='4' class='btn-link btn'>
+                                <div align='center'>
+                                    <img src='{% static 'app/img/sondaggi.png' %}' alt='Sondaggi C87' width='120' height='120' class='block img-rounded'>
+                                </div>
+                                <!-- / image -->
+                                <div class='col-sm-4' style> <!-- recap -->
+                                    <div class = 'row' >
+                                        <h4 class='text-info text-left' style="text-align: center;font-weight: bold;">Ultimo Update: {{ dates.IVR }}</h4>
+                                    </div>
+                                </div> <!-- / recap -->
+                                </button></form>
+                            </div> <!-- / panel body -->
+                        </div> <!-- / panel c87 -->
+                        <div class='panel panel-info'> <!-- panel CRM-->
+                            <div class='panel-heading'>
+                                <h3 class='panel-title' style="text-align: center;font-weight: bold;">Sondaggi SOS Easy</h3>
+                            </div>
+                            <div class='panel-body'> <!-- panel body -->
+                                <form action='{% url 'CED:sos_easy_sms' %}' method='post'>{% csrf_token %}
+                                <button type='submit' name='status' value='4' class='btn-link btn'>
+                                <div align='center'>
+                                    <img src='{% static 'app/img/sondaggi.png' %}' alt='CRM Justone' width='120' height='120' class='block img-rounded'>
+                                </div>
+                                <!-- / image -->
+                                <div class='col-sm-4' style> <!-- recap -->
+                                    <div class = 'row' >
+                                        <h4 class='text-info text-left' style="text-align: center;font-weight: bold;">Ultimo Update: 00/00/0000 00:00</h4>
+                                    </div>
+                                </div> <!-- / recap -->
+                                </button></form>
+                            </div> <!-- / panel body -->
+                        </div> <!-- / panel Atpay-->
+                    </div> <!-- /col 3-->
+                </div> <!-- / row -->
+                <!-- metti qui i descrittori dei servizi-->
+{% endblock %}

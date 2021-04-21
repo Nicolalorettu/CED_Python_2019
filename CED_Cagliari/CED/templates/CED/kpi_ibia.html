@@ -1,0 +1,224 @@
+{% extends "base_generic.html" %}
+{% block content %}
+{% include "Navbar.html" %}
+<div class="container">
+    <div class="panel panel-primary">
+        <div class="panel-heading" style="text-align: center;font-weight: bold;">
+            Report Real Time
+        </div>
+        <div class="panel-body">
+            <form class="form" action="{% url "CED:kpi_ibia" %}" method="post">{% csrf_token %}
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-1">
+
+                        </div>
+                        <div class="col-lg-3">
+                            <label>ASC:</label>
+                            <select class="form-control" name="asc">
+                                {% if 7.form.asc %}
+                                    <option selected="selected"> {{ 7.form.asc }} </option>
+                                {% endif %}
+                                {% for asc in 1.ASCS %}
+                                    {% if 7.form.asc != asc %}
+                                        <option value={{asc.ASC}}>   {{asc.ASC}}   </option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="col-lg-1">
+
+                        </div>
+                        <div class="col-lg-2">
+
+                        </div>
+                        <div class="col-lg-1">
+
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="group">Gruppo:</label>
+                            <select class="form-control" name="group">
+                                {% if 7.form.group %}
+                                    <option selected="selected"> {{ 7.form.group }} </option>
+                                {% endif %}
+                                {% for group in 0.groups %}
+                                    {% if 7.form.group != group %}
+                                        <option value={{group.BACINO}}>   {{group.BACINO}}   </option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-lg-1">
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p></p>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-1">
+
+                        </div>
+                        <div class="col-lg-2 col-xs-6">
+                            <div class="btn-group">
+                                <button class="btn btn-primary" type="submit" name="filter" value="1" style="width:255px">Filtra Gruppo</button>
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+
+                        </div>
+                        <div class="col-lg-2 col-xs-6">
+                            <div class="btn-group">
+                                <button class="btn btn-primary" type="submit" name="table" value="0" style="width:255px">Visualizza Tabella</button>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="container">
+{% if 8.errors %}
+    {% if 8.errors.empty %}
+        <div class="alert alert-info">
+          <center>{{ 8.errors.empty }}<center>
+        </div>
+    {% elif 8.errors.date %}
+        <div class="alert alert-danger">
+          <center>{{ 8.errors.date }}</center>
+        </div>
+    {% endif %}
+{% elif 2.ibia.Home %}
+    <div class="col-lg-1">
+    </div>
+    <div class="col-lg-6"> <!-- FRONT END OLD KPI TABLE -->
+        <table class="table table-bordered">
+            <col width="300">
+            <col width="150">
+            <col width="150">
+            <col width="150">
+            <thead>
+            </thead>
+            <tbody>
+                <tr>
+                    <td height="35" bgcolor="red"style="text-align: center;font-weight: bold;vertical-align: middle" rowspan="2"><font color="white">{{ 2.ibia.Home.0.date }} ore 16:10</font></td>
+                    <td bgcolor="red" style="text-align: center;font-weight: bold;vertical-align: middle" colspan="3"><font color="white">Lavorato FE HOME</font></td>
+                </tr>
+
+                <tr>
+                    <td height="35" bgcolor="#E5E4E2"style="text-align: center;font-weight: bold;vertical-align: middle">FONIA</td>
+                    <td height="35" bgcolor="#E5E4E2"style="text-align: center;font-weight: bold;vertical-align: middle">ADSL</td>
+                    <td height="35" bgcolor="#E5E4E2"style="text-align: center;font-weight: bold;vertical-align: middle">FIBRA</td>
+                </tr>
+                {% for kpi in 2.ibia.Home %}
+                    <tr>
+                        {% if kpi.rowdesc == "VERIFICHE NEGATIVE VOL" %}
+                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ kpi.FONIA }}</td>
+                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ kpi.ADSL }}</td>
+                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ kpi.FIBRA }}</td>
+                        {% else %}
+                            {% if kpi.rowdesc == "Unknown" %}
+                                <td height="35" bgcolor=""style="text-align: left;vertical-align: middle"> APPESI </td>
+                            {% elif kpi.rowdesc == "INVIO OF" %}
+                                <td height="35" bgcolor=""style="text-align: left;vertical-align: middle" rowspan="2">{{ kpi.rowdesc }}</td>
+                            {% elif kpi.rowdesc == "INVIO OF*" %}
+                                <!-- Salta la riga -->
+                            {% elif kpi.rowdesc == "VERIFICHE NEGATIVE" %}
+                                <td height="35" bgcolor=""style="text-align: left;vertical-align: middle" rowspan="2">{{ kpi.rowdesc }}</td>
+                            {% else %}
+                                <td height="35" bgcolor=""style="text-align: left;vertical-align: middle">{{ kpi.rowdesc }}</td>
+                            {% endif %}
+                            {% if kpi.FONIA < kpi.FONIATZ %}
+                                <td height="35" bgcolor="lightgreen"style="text-align: right;vertical-align: middle">{{ kpi.FONIA|floatformat:2 }}%</td>
+                            {% else %}
+                                <td height="35" bgcolor="pink"style="text-align: right;vertical-align: middle">{{ kpi.FONIA|floatformat:2 }}%</td>
+                            {% endif %}
+                            {% if kpi.rowdesc == "INVIO OFFLINE*" or kpi.rowdesc == "INVIO OF*" or kpi.rowdesc == "REWORK" %}
+                                {% if kpi.ADSL < kpi.ADSLTZ %}
+                                    <td height="35" bgcolor="lightgreen"style="text-align: center;vertical-align: middle" colspan="2">{{ kpi.ADSL|floatformat:2 }}%</td>
+                                {% else %}
+                                    <td height="35" bgcolor="pink"style="text-align: center;vertical-align: middle" colspan="2">{{ kpi.ADSL|floatformat:2 }}%</td>
+                                {% endif %}
+                            {% else %}
+                                {% if kpi.ADSL < kpi.ADSLTZ %}
+                                    <td height="35" bgcolor="lightgreen"style="text-align: right;vertical-align: middle">{{ kpi.ADSL|floatformat:2 }}%</td>
+                                {% else %}
+                                    <td height="35" bgcolor="pink"style="text-align: right;vertical-align: middle">{{ kpi.ADSL|floatformat:2 }}%</td>
+                                {% endif %}
+                                {% if kpi.FIBRA < kpi.FIBRATZ %}
+                                    <td height="35" bgcolor="lightgreen"style="text-align: right;vertical-align: middle">{{ kpi.FIBRA|floatformat:2 }}%</td>
+                                {% else %}
+                                    <td height="35" bgcolor="pink"style="text-align: right;vertical-align: middle">{{ kpi.FIBRA|floatformat:2 }}%</td>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="col-lg-4"> <!-- FRONT END OLD KPI TABLE -->
+        <table class="table table-bordered">
+            <col width="150">
+            <col width="150">
+            <col width="150">
+            <thead>
+            </thead>
+            <tbody>
+                <tr>
+                    <td bgcolor="red" style="text-align: center;font-weight: bold;vertical-align: middle" colspan="3"><font color="white">Lavorato FE OFFICE</font></td>
+                </tr>
+
+                <tr>
+                    <td height="35" bgcolor="#E5E4E2"style="text-align: center;font-weight: bold;vertical-align: middle">FONIA</td>
+                    <td height="35" bgcolor="#E5E4E2"style="text-align: center;font-weight: bold;vertical-align: middle">ADSL</td>
+                    <td height="35" bgcolor="#E5E4E2"style="text-align: center;font-weight: bold;vertical-align: middle">FIBRA</td>
+                </tr>
+                {% for kpi in 2.ibia.Bus %}
+                    <tr>
+                        {% if kpi.rowdesc == "VERIFICHE NEGATIVE VOL" %}
+                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ kpi.FONIA }}</td>
+                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ kpi.ADSL }}</td>
+                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle">{{ kpi.FIBRA }}</td>
+                        {% elif kpi.rowdesc == "SWAP" %}
+                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle"></td>
+                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle"></td>
+                            <td height="35" bgcolor=""style="text-align: center;vertical-align: middle"></td>
+                        {% else %}
+                            {% if kpi.FONIA < kpi.FONIATZ %}
+                                <td height="35" bgcolor="lightgreen"style="text-align: right;vertical-align: middle">{{ kpi.FONIA|floatformat:2 }}%</td>
+                            {% else %}
+                                <td height="35" bgcolor="pink"style="text-align: right;vertical-align: middle">{{ kpi.FONIA|floatformat:2 }}%</td>
+                            {% endif %}
+                            {% if kpi.rowdesc == "INVIO OFFLINE*" or kpi.rowdesc == "INVIO OF*" or kpi.rowdesc == "REWORK" %}
+                                {% if kpi.ADSL < kpi.ADSLTZ %}
+                                    <td height="35" bgcolor="lightgreen"style="text-align: center;vertical-align: middle" colspan="2">{{ kpi.ADSL|floatformat:2 }}%</td>
+                                {% else %}
+                                    <td height="35" bgcolor="pink"style="text-align: center;vertical-align: middle" colspan="2">{{ kpi.ADSL|floatformat:2 }}%</td>
+                                {% endif %}
+                            {% else %}
+                                {% if kpi.ADSL < kpi.ADSLTZ %}
+                                    <td height="35" bgcolor="lightgreen"style="text-align: right;vertical-align: middle">{{ kpi.ADSL|floatformat:2 }}%</td>
+                                {% else %}
+                                    <td height="35" bgcolor="pink"style="text-align: right;vertical-align: middle">{{ kpi.ADSL|floatformat:2 }}%</td>
+                                {% endif %}
+                                {% if kpi.FIBRA < kpi.FIBRATZ %}
+                                    <td height="35" bgcolor="lightgreen"style="text-align: right;vertical-align: middle">{{ kpi.FIBRA|floatformat:2 }}%</td>
+                                {% else %}
+                                    <td height="35" bgcolor="pink"style="text-align: right;vertical-align: middle">{{ kpi.FIBRA|floatformat:2 }}%</td>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

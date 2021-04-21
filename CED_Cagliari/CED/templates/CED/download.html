@@ -1,0 +1,54 @@
+{% extends "base_generic.html" %}
+{% load static %}
+{% block content %}
+{% include 'Navbar.html' %}
+<body class="text-center">
+    <br></br>
+
+    <div class="container text-center">
+        <div class="col-lg-2">
+
+        </div>
+        <div class="col-lg-8">
+            <div class="row">
+                <br></br>
+                <p style="font-size:28px; font-weight: bold">
+                    IL FILE È PRONTO PER IL DOWNLOAD
+                </p>
+            </div>
+            {% if error %}
+                <form action='{% url 'CED:index' %}' method='post'>{% csrf_token %}
+            {% else %}
+                <form action='{% url 'CED:download' %}' method='post'>{% csrf_token %}
+            {% endif %}
+                    <div class="row">
+                        <br></br>
+                        {% if error %}
+                            <p style="text-align: center;font-size:24px"> {{ error }} </p>
+                        {% else %}
+                            <button type='submit' name='status' value='1' class='btn-link btn' style="text-align: center;font-size:28px">
+                                CLICCA PER SCARICARE
+                            </button>
+                        {% endif %}
+                        <br></br>
+                    </div>
+                    <div class="row">
+                        <br></br>
+                        <button type='submit' name='status' value='2' class='btn-link btn' style="text-align: center;font-size:18px">
+                             TORNA INDIETRO
+                        </button>
+                        <br></br>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-2">
+
+        </div>
+
+
+    </div>
+
+</body>
+
+{% endblock %}

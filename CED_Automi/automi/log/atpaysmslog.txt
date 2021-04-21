@@ -1,0 +1,25 @@
+
+ [ 2018-10-19 15:10:14 ] File zip catturato e depositato in: C:\Apache\htdocs\CED_Automi\automi\downloads 
+ [ 2018-10-19 15:10:25 ] Rimmosso Ennova.zip, estrazione effettuata in C:\Apache\htdocs\CED_Automi\automi\downloads 
+ [ 2018-10-19 15:14:43 ] Rimossi tutti i file da C:\Apache\htdocs\CED_Automi\automi\downloads\Ennova, le tabelle: ['ced_atpay_sms_risposte', 'ced_atpay_sms_fake', 'ced_atpay_sms_non3xx']  sono state aggiornate. 
+ [ 2018-11-12 15:46:42 ] File zip catturato e depositato in: C:\Apache\htdocs\CED_Automi\automi\downloads 
+ [ 2018-11-12 15:46:50 ] Rimmosso Ennova.zip, estrazione effettuata in C:\Apache\htdocs\CED_Automi\automi\downloads 
+ [ 2018-11-12 15:51:09 ] Rimossi tutti i file da C:\Apache\htdocs\CED_Automi\automi\downloads\Ennova, le tabelle: ['ced_sos_easy_sms_risposte', 'ced_sos_easy_sms_fake', 'ced_sos_easy_sms_non3xx']  sono state aggiornate. 
+ [ 2018-11-20 15:09:30 ] File zip catturato e depositato in: C:\Apache\htdocs\CED_Automi\automi\downloads 
+ [ 2018-11-20 15:09:40 ] Rimmosso Ennova.zip, estrazione effettuata in C:\Apache\htdocs\CED_Automi\automi\downloads 
+ [ 2018-11-20 15:14:12 ] Rimossi tutti i file da C:\Apache\htdocs\CED_Automi\automi\downloads\Ennova, le tabelle: ['ced_sos_easy_sms_risposte', 'ced_sos_easy_sms_fake', 'ced_sos_easy_sms_non3xx']  sono state aggiornate. 
+ [ 2018-11-20 15:35:41 ] File zip catturato e depositato in: C:\Apache\htdocs\CED_Automi\automi\downloads 
+ [ 2018-11-20 15:35:49 ] Rimmosso Ennova.zip, estrazione effettuata in C:\Apache\htdocs\CED_Automi\automi\downloads 
+ [ 2018-11-20 15:38:16 ] File zip catturato e depositato in: C:\Apache\htdocs\CED_Automi\automi\downloads 
+ [ 2018-11-20 15:38:26 ] Rimmosso Ennova.zip, estrazione effettuata in C:\Apache\htdocs\CED_Automi\automi\downloads 
+ [ 2018-11-20 15:42:41 ] Rimossi tutti i file da C:\Apache\htdocs\CED_Automi\automi\downloads\Ennova, le tabelle: ['ced_sos_easy_sms_risposte', 'ced_sos_easy_sms_fake', 'ced_sos_easy_sms_non3xx']  sono state aggiornate. 
+ [ 2018-11-20 15:59:44 ] File zip catturato e depositato in: C:\Apache\htdocs\CED_Automi\automi\downloads 
+ [ 2018-11-20 15:59:53 ] Rimmosso Ennova.zip, estrazione effettuata in C:\Apache\htdocs\CED_Automi\automi\downloads 
+ [ 2018-11-20 16:04:16 ] Rimossi tutti i file da C:\Apache\htdocs\CED_Automi\automi\downloads\Ennova, le tabelle: ['ced_sos_easy_sms_risposte', 'ced_sos_easy_sms_fake', 'ced_sos_easy_sms_non3xx']  sono state aggiornate. 
+ [ 2018-11-20 16:24:14 ] File zip catturato e depositato in: C:\Apache\htdocs\CED_Automi\automi\downloads 
+ [ 2018-11-20 16:24:25 ] Rimmosso Ennova.zip, estrazione effettuata in C:\Apache\htdocs\CED_Automi\automi\downloads 
+ [ 2018-11-20 16:41:00 ] Rimossi tutti i file da C:\Apache\htdocs\CED_Automi\automi\downloads\Ennova, le tabelle: ['ced_sos_easy_sms_risposte', 'ced_sos_easy_sms_fake', 'ced_sos_easy_sms_non3xx']  sono state aggiornate. 
+ [ 2018-11-20 16:49:40 ] File zip catturato e depositato in: C:\Apache\htdocs\CED_Automi\automi\downloads 
+ [ 2018-11-20 16:49:50 ] Rimmosso Ennova.zip, estrazione effettuata in C:\Apache\htdocs\CED_Automi\automi\downloads 
+ [ 2018-11-20 17:07:04 ] Rimossi tutti i file da C:\Apache\htdocs\CED_Automi\automi\downloads\Ennova, le tabelle: ['ced_sos_easy_sms_risposte', 'ced_sos_easy_sms_fake', 'ced_sos_easy_sms_non3xx']  sono state aggiornate. 
+

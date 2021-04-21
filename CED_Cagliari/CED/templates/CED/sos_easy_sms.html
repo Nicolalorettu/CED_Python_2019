@@ -1,0 +1,212 @@
+{% extends "base_generic.html" %}
+{% block content %}
+{% include "Navbar.html" %}
+<div class="container">
+    <div class="panel panel-primary">
+        <div class="panel-heading" style="text-align: center;font-weight: bold;"> Report SOS Easy - SMS </div>
+        <div class="panel-body">
+            <form class="form" action="{% url "CED:sos_easy_sms" %}" method="post">{% csrf_token %}
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <label>Anno:</label>
+                                <select class="form-control" name="year">
+                                    {% if 0.form.year %}
+                                        <option selected="selected"> {{ 0.form.year }} </option>
+                                    {% endif %}
+                                    <option value ="2018"/>2018
+                                    <option value ="2019"/>2019
+                                </select>
+                        </div>
+                        <div class="col-lg-1">
+
+                        </div>
+                        <div class="col-lg-2">
+                            <label for="month">Mese:</label>
+                                <select onchange="disable_date()" class="form-control" id="month" name="month">
+                                {% if 0.form.month %}
+                                    <option selected="selected"> {{ 0.form.month }} </option>
+                                {% endif %}
+                                    <option value="">--Seleziona Data--</option>
+                                {% for month in 1.months %}
+                                    {% if 0.form.month != month.name %}
+                                    <option value={{month.name}}>   {{month.name}}   </option>
+                                    {% endif %}
+                                {% endfor %}
+                                </select>
+                        </div>
+                        <div class="col-lg-2">
+
+                        </div>
+                        <div class="col-lg-2">
+                            <label for="date_from">Data da:</label>
+                            <input type="date" class="form-control" id="date_from" name="date_from" value="{{ 0.form.date_from }}">
+                        </div>
+                        <div class="col-lg-1">
+
+                        </div>
+                        <div class="col-lg-2">
+                            <label for="date_from">Data a:</label>
+                            <input type="date" class="form-control" id="date_to" name="date_to" value="{{ 0.form.date_to }}">
+                        </div>
+                    </div>
+                        <div class="row">
+                        <p></p>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-2 col-xs-6">
+                                <div class="btn-group">
+                                    <button class="btn btn-primary" type="submit" name="btn" value="1" style="width:160px">Dettaglio Sms</button>
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+
+                            </div>
+                            <div class="col-lg-4">
+
+                            </div>
+                            <div class="col-lg-2">
+
+                            </div>
+                            <div class="col-lg-2 col-xs-6">
+                                <div class="btn-group">
+                                    <button class="btn btn-primary" type="submit" name="btn" value="0" style="width:160px">Tabella Sms</button>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="container">
+    {% if 2.errors %}
+        {% if 2.errors.empty %}
+            <div class="alert alert-info" style="text-align: center;font-weight: bold;">
+                {{ 2.errors.empty }}
+            </div>
+        {% elif 2.errors.date %}
+            <div class="alert alert-danger" style="text-align: center;font-weight: bold;">
+                {{ 2.errors.date }}
+            </div>
+        {% endif %}
+    {% elif 3.smsmonth.ced_sos_easy_sms_risposte  %}
+        <div class="col-lg-12">
+            <div class="row">
+                <table class="table table-bordered">
+                    <col width="300">
+                    <col width="150">
+                    <col width="150">
+                    <col width="150">
+                    <col width="150">
+                    <col width="150">
+                    <col width="150">
+                    <col width="150">
+                    <col width="150">
+                    <col width="200">
+                    <col width="100">
+                    <thead>
+                        <th bgcolor="red" style="text-align: center;font-weight: bold;vertical-align: middle" colspan="12" ><font color="white">MENSILE</font></th>
+                    </thead>
+                        <tbody>
+                            <tr>
+                            {% for row in 5.htmlth %}
+                                <td height="57" bgcolor="lightgrey"  style="text-align: center;font-weight: bold;vertical-align: middle">{{ row }}</td>
+                            {% endfor %}
+                            </tr>
+                                {% for row in 3.smsmonth.ced_sos_easy_sms_risposte %}
+                                <tr>
+                                <td height="35" style="text-align: center;font-weight: bold;vertical-align: middle">{{row.periodo}}</td>
+                                <td height="35" style="text-align: center;font-weight: bold;vertical-align: middle">{{row.fatturati}}</td>
+                                <td height="35" style="text-align: center;font-weight: bold;vertical-align: middle">{{row.fake}}</td>
+                                <td height="35" style="text-align: center;font-weight: bold;vertical-align: middle">{{row.percfake}} %</td>
+                                <td height="35" style="text-align: center;font-weight: bold;vertical-align: middle">{{row.Non_Presenti}}</td>
+                                <td height="35" style="text-align: center;font-weight: bold;vertical-align: middle">{{row.Totale}}</td>
+                                <td height="35" style="text-align: center;font-weight: bold;vertical-align: middle">{{row.KO}}</td>
+                                <td height="35" style="text-align: center;font-weight: bold;vertical-align: middle">{{row.percKO_Risp}} %</td>
+                                <td height="35" style="text-align: center;font-weight: bold;vertical-align: middle">{{row.Totale_TT}}</td>
+                                <td height="35" style="text-align: center;font-weight: bold;vertical-align: middle">{{row.KO_TT}}</td>
+                                <td height="35" style="text-align: center;font-weight: bold;vertical-align: middle">{{row.percKO_TT}} %</td>
+                                </tr>
+                                {% endfor %}
+                        </tbody>
+                    </table>
+                    <tr>
+                        <div class="alert alert-warning" style="text-align: center;font-weight: bold;">
+                            {{ 6.info }}
+                        </div>
+                    </tr>
+                </div>
+                <div class="row">
+                    <table class="table table-bordered">
+                        <col width="300">
+                        <col width="150">
+                        <col width="150">
+                        <col width="150">
+                        <col width="150">
+                        <col width="150">
+                        <col width="150">
+                        <col width="150">
+                        <col width="150">
+                        <col width="200">
+                        <col width="100">
+                    <thead>
+                        <th bgcolor="red" style="text-align: center;font-weight: bold;vertical-align: middle" colspan="12" ><font color="white">SETTIMANALE</font></th>
+                    </thead>
+                        <tbody>
+                            <tr>
+                            {% for row in 5.htmlth %}
+                                <td height="57" bgcolor="lightgrey"  style="text-align: center;font-weight: bold;vertical-align: middle">{{ row }}</td>
+                            {% endfor %}
+                            </tr>
+                                {% for row in 4.smsweek.ced_sos_easy_sms_risposte %}
+                            <tr>
+                                <td height="35" style="text-align: center;font-weight: bold;vertical-align: middle">Week {{row.Week}}</td>
+                                <td height="35" style="text-align: center;font-weight: bold;vertical-align: middle">{{row.fatturati}}</td>
+                                <td height="35" style="text-align: center;font-weight: bold;vertical-align: middle">{{row.fake}}</td>
+                                <td height="35" style="text-align: center;font-weight: bold;vertical-align: middle">{{row.percfake}} %</td>
+                                <td height="35" style="text-align: center;font-weight: bold;vertical-align: middle">{{row.Non_Presenti}}</td>
+                                <td height="35" style="text-align: center;font-weight: bold;vertical-align: middle">{{row.Totale}}</td>
+                                <td height="35" style="text-align: center;font-weight: bold;vertical-align: middle">{{row.KO}}</td>
+                                <td height="35" style="text-align: center;font-weight: bold;vertical-align: middle">{{row.percKO_Risp}} %</td>
+                                <td height="35" style="text-align: center;font-weight: bold;vertical-align: middle">{{row.Totale_TT}}</td>
+                                <td height="35" style="text-align: center;font-weight: bold;vertical-align: middle">{{row.KO_TT}}</td>
+                                <td height="35" style="text-align: center;font-weight: bold;vertical-align: middle">{{row.percKO_TT}} %</td>
+                            </tr>
+                                {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+          </div>
+</div>
+    {% endif %}
+</div>
+
+<script>
+$(document).ready(
+    function disable_date(){
+        if (document.getElementById("month").value == ""){
+            document.getElementById("date_to").disabled = false
+            document.getElementById("date_from").disabled = false
+        }else{
+            document.getElementById("date_to").disabled = true
+            document.getElementById("date_from").disabled = true
+            }
+    })
+
+</script>
+<script>
+    function disable_date(){
+        if (document.getElementById("month").value == ""){
+            document.getElementById("date_to").disabled = false
+            document.getElementById("date_from").disabled = false
+        }else{
+            document.getElementById("date_to").disabled = true
+            document.getElementById("date_from").disabled = true
+            }
+    }
+
+</script>
+
+{% endblock %}

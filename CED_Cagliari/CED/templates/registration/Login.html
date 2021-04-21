@@ -1,0 +1,40 @@
+{% extends "base_generic.html" %}
+{% load static %}
+{% block content %}
+
+<body class="text-center">
+             <!-- Custom styles for this template -->
+             <link href='{% static 'app/css/signin.css' %}' rel="stylesheet">
+</body>
+<div class="container">
+{% for message in messages %}
+    <div class="alert {{ message.tags }}">{{ message }}</div>
+{% endfor %}
+      <form class="form-signin" action='{% url 'CED:check' %}' method="post">
+		{% csrf_token %}
+		{% if next %}
+            <input type="hidden" name="next" value="{{ next }}" />
+        {% endif %}
+
+        <img class="mb-4" src='{% static 'app/img/logo.png' %}' alt="">
+
+        <h1 class="h3 mb-3 font-weight-normal"></h1>
+		<br>
+		<div class="group">
+			<input type="text" id="inputUser" name="username" class="form-control" placeholder="Username" required autofocus alt="" width="300" height="100">
+		</div>
+
+		<div class="group">
+			<input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required alt="" width="300" height="100">
+		</div>
+
+		<div>
+			<button class="btn btn-lg btn-primary btn-block" type="submit">Accedi</button>
+		</div>
+
+      </form>
+
+	  <p><a href="{% url 'password_reset' %}">Password dimenticata</a></p>
+
+</div>
+{% endblock %}

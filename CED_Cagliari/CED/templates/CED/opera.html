@@ -1,0 +1,303 @@
+{% extends "base_generic.html" %}
+{% block content %}
+{% include "Navbar.html" %}
+{% load static %}
+<div class="container">
+</div>
+<div class="container">
+    <div class="panel panel-primary">
+        <div class="panel-heading" style="text-align: center;font-weight: bold;">
+            Report KPI - OpeRA
+        </div>
+        <div class="panel-body">
+            <form class="form" onsubmit="myFunction()" id="form" action="{% url "CED:opera" %}" method="post">{% csrf_token %}
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <label>Anno:</label>
+                            <select class="form-control" name="year">
+                                {% if 7.form.year %}
+                                    <option selected="selected"> {{ 7.form.year }} </option>
+                                {% endif %}
+                                <option value="2018">   2018   </option>
+                                <option value="2019">   2019   </option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3">
+                        </div>
+
+                        <div class="col-lg-2">
+                            <label for="month">Mese:</label>
+                            <select class="form-control" id="month" name="month">
+                                {% if 7.form.month %}
+                                    <option selected="selected"> {{ 7.form.month }} </option>
+                                {% endif %}
+                                {% for month in 4.months %}
+                                    {% if 7.form.month != month.name %}
+                                        <option value={{month.name}}>   {{month.name}}   </option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="col-lg-3">
+
+                        </div>
+                        <div class="col-lg-2">
+                            <label for="group">Gruppo:</label>
+                            <select class="form-control" name="group">
+                                {% if 7.form.group %}
+                                    <option selected="selected"> {{ 7.form.group }} </option>
+                                {% endif %}
+                                {% for group in 0.groups %}
+                                    {% if 7.form.group != group.BACINO %}
+                                        <option value={{group.BACINO}}>   {{group.BACINO}}   </option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p></p>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2 col-xs-6">
+                            <div class="btn-group">
+                                <button class="btn btn-primary" type="submit" name="tableopera" value="1" style="width:160px">Dettaglio OpeRA</button>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+
+                        </div>
+                        <div class="col-lg-4">
+
+                        </div>
+                        <div class="col-lg-2">
+
+                        </div>
+                        <div class="col-lg-2 col-xs-6">
+                            <div class="btn-group">
+                                <button class="btn btn-primary" type="submit" name="tableopera" value="0" style="width:160px">Tabella OpeRA</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row" id="pbar" style="display: none">
+        <div class="col-lg-4">
+
+        </div>
+        <div class="col-lg-4">
+            <img  class="img-responsive center-block" src="{% static "app/img/loading.gif" %}" alt="">
+        </div>
+        <div class="col-lg-4">
+
+        </div>
+    </div>
+</div>
+
+<div class="row" id="data" style="display: block">
+    {% if 8.errors %}
+        <div class="container">
+            {% if 8.errors.empty %}
+                <div class="alert alert-info" style="text-align: center;font-weight: bold;">
+                    {{ 8.errors.empty }}
+                </div>
+            {% elif 8.errors.date %}
+                <div class="alert alert-danger" style="text-align: center;font-weight: bold;">
+                    {{ 8.errors.date }}
+                </div>
+            {% endif %}
+        </div>
+    {% elif 2.opera_kpi.FEH %}
+        <div class="col-lg-6"> <!-- FRONT END OLD KPI TABLE -->
+            <table class="table table-bordered">
+                <col width="300">
+                <col width="150">
+                <col width="150">
+                <thead>
+                    <tr>
+                        <th bgcolor="red" style="text-align: left;vertical-align: middle;color:white" colspan="4">Report Sintesi Volumi FE - {{ 7.form.month }} {{ 7.form.year }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td height="35" bgcolor="lightgrey"style="text-align: center;font-weight: bold;vertical-align: middle">INBOUND HOME</td>
+                        <td height="35" bgcolor="lightgrey"style="text-align: center;font-weight: bold;vertical-align: middle">KPI < </td>
+                        <td height="35" bgcolor="lightgrey"style="text-align: center;font-weight: bold;vertical-align: middle">{{ 7.form.group }}</td>
+                        <td height="35" bgcolor="lightgrey"style="text-align: center;font-weight: bold;vertical-align: middle">Delta vs KPI</td>
+                    </tr>
+                    {% for kpi in 2.opera_kpi.FEH %}
+                        <tr>
+                            <td height="35" bgcolor=""style="text-align: left;vertical-align: middle">{{ kpi.name }}</td>
+                            {% if kpi.target == 0 %}
+                                <td height="35" bgcolor=""style="text-align: right;vertical-align: middle">{{ kpi.tier1|floatformat:2 }}%</td>
+                            {% else %}
+                                <td height="35" bgcolor=""style="text-align: right;vertical-align: middle">{{ kpi.target|floatformat:2 }}%</td>
+                            {% endif %}
+                            {% if kpi.kpo < kpi.tier3 %}
+                                <td height="35" bgcolor="blue"style="text-align: right;vertical-align: middle;color:white">{{ kpi.kpo|floatformat:2 }}%</td>
+                            {% elif kpi.kpo < kpi.tier2 %}
+                                <td height="35" bgcolor="lightblue"style="text-align: right;vertical-align: middle">{{ kpi.kpo|floatformat:2 }}%</td>
+                            {% elif kpi.kpo < kpi.tier1 %}
+                                <td height="35" bgcolor="lightgreen"style="text-align: right;vertical-align: middle">{{ kpi.kpo|floatformat:2 }}%</td>
+                            {% elif kpi.kpo < kpi.target %}
+                                {% if kpi.tier1 == 0 %}
+                                    <td height="35" bgcolor="lightgreen"style="text-align: right;vertical-align: middle">{{ kpi.kpo|floatformat:2 }}%</td>
+                                {% else %}
+                                    <td height="35" bgcolor="pink"style="text-align: right;vertical-align: middle">{{ kpi.kpo|floatformat:2 }}%</td>
+                                {% endif %}
+                            {% elif kpi.target == 0  %}
+                                <td height="35" bgcolor="pink"style="text-align: right;vertical-align: middle">{{ kpi.kpo|floatformat:2 }}%</td>
+                            {% else %}
+                                <td height="35" bgcolor="red"style="text-align: right;vertical-align: middle;color:white">{{ kpi.kpo|floatformat:2 }}%</td>
+                            {% endif %}
+                            <td height="35" bgcolor=""style="text-align: right;vertical-align: middle">{{ kpi.delta|floatformat:2 }}%</td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td height="35" bgcolor=""style="text-align: center;vertical-align: middle"></td>
+                        <td height="35" bgcolor=""style="text-align: center;vertical-align: middle"></td>
+                        <td height="35" bgcolor=""style="text-align: center;vertical-align: middle"></td>
+                    </tr>
+                    <tr>
+                        <td height="35" bgcolor="lightgrey"style="text-align: center;font-weight: bold;vertical-align: middle">INBOUND OFFICE</td>
+                        <td height="35" bgcolor="lightgrey"style="text-align: center;font-weight: bold;vertical-align: middle">KPI < </td>
+                        <td height="35" bgcolor="lightgrey"style="text-align: center;font-weight: bold;vertical-align: middle">{{ 7.form.group }}</td>
+                        <td height="35" bgcolor="lightgrey"style="text-align: center;font-weight: bold;vertical-align: middle">Delta vs KPI</td>
+                    </tr>
+                    {% for kpi in 2.opera_kpi.FEO %}
+                        <tr>
+                            <td height="35" bgcolor=""style="text-align: left;vertical-align: middle">{{ kpi.name }}</td>
+                            {% if kpi.target == 0 %}
+                                <td height="35" bgcolor=""style="text-align: right;vertical-align: middle">{{ kpi.tier1|floatformat:2 }}%</td>
+                            {% else %}
+                                <td height="35" bgcolor=""style="text-align: right;vertical-align: middle">{{ kpi.target|floatformat:2 }}%</td>
+                            {% endif %}
+                            {% if kpi.kpo < kpi.tier3 %}
+                                <td height="35" bgcolor="blue"style="text-align: right;vertical-align: middle;color:white">{{ kpi.kpo|floatformat:2 }}%</td>
+                            {% elif kpi.kpo < kpi.tier2 %}
+                                <td height="35" bgcolor="lightblue"style="text-align: right;vertical-align: middle">{{ kpi.kpo|floatformat:2 }}%</td>
+                            {% elif kpi.kpo < kpi.tier1 %}
+                                <td height="35" bgcolor="lightgreen"style="text-align: right;vertical-align: middle">{{ kpi.kpo|floatformat:2 }}%</td>
+                            {% elif kpi.kpo < kpi.target %}
+                                {% if kpi.tier1 == 0 %}
+                                    <td height="35" bgcolor="lightgreen"style="text-align: right;vertical-align: middle">{{ kpi.kpo|floatformat:2 }}%</td>
+                                {% else %}
+                                    <td height="35" bgcolor="pink"style="text-align: right;vertical-align: middle">{{ kpi.kpo|floatformat:2 }}%</td>
+                                {% endif %}
+                            {% elif kpi.target == 0  %}
+                                <td height="35" bgcolor="pink"style="text-align: right;vertical-align: middle">{{ kpi.kpo|floatformat:2 }}%</td>
+                            {% else %}
+                                <td height="35" bgcolor="red"style="text-align: right;vertical-align: middle;color:white">{{ kpi.kpo|floatformat:2 }}%</td>
+                            {% endif %}
+                            <td height="35" bgcolor=""style="text-align: right;vertical-align: middle">{{ kpi.delta|floatformat:2 }}%</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        <div class="col-lg-6"> <!-- BO OLD KPI TABLE -->
+            <table class="table table-bordered">
+                <col width="300">
+                <col width="150">
+                <col width="150">
+                <thead>
+                    <tr>
+                        <th bgcolor="red"style="text-align: left;font-weight: bold;vertical-align: middle" colspan="4"><font color="white">Report Sintesi Volumi BO - {{ 7.form.month }} {{ 7.form.year }}
+                        </font></th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td height="35" bgcolor="lightgrey"style="text-align: center;font-weight: bold;vertical-align: middle">HOME+OFFICE</td>
+                    <td height="35" bgcolor="lightgrey"style="text-align: center;font-weight: bold;vertical-align: middle">KPI < </td>
+                    <td height="35" bgcolor="lightgrey"style="text-align: center;font-weight: bold;vertical-align: middle">{{ 7.form.group }}</td>
+                    <td height="35" bgcolor="lightgrey"style="text-align: center;font-weight: bold;vertical-align: middle">Delta vs KPI</td>
+                </tr>
+                {% for kpi in 2.opera_kpi.BO %}
+                    <tr>
+                        <td height="35" bgcolor=""style="text-align: left;vertical-align: middle">{{ kpi.name }}</td>
+                        {% if kpi.target == 0 %}
+                            <td height="35" bgcolor=""style="text-align: right;vertical-align: middle">{{ kpi.tier1|floatformat:2 }}%</td>
+                        {% else %}
+                            <td height="35" bgcolor=""style="text-align: right;vertical-align: middle">{{ kpi.target|floatformat:2 }}%</td>
+                        {% endif %}
+                        {% if kpi.kpo < kpi.tier3 %}
+                            <td height="35" bgcolor="blue"style="text-align: right;vertical-align: middle;color:white">{{ kpi.kpo|floatformat:2 }}%</td>
+                        {% elif kpi.kpo < kpi.tier2 %}
+                            <td height="35" bgcolor="lightblue"style="text-align: right;vertical-align: middle">{{ kpi.kpo|floatformat:2 }}%</td>
+                        {% elif kpi.kpo < kpi.tier1 %}
+                            <td height="35" bgcolor="lightgreen"style="text-align: right;vertical-align: middle">{{ kpi.kpo|floatformat:2 }}%</td>
+                        {% elif kpi.kpo < kpi.target %}
+                            {% if kpi.tier1 == 0 %}
+                                <td height="35" bgcolor="lightgreen"style="text-align: right;vertical-align: middle">{{ kpi.kpo|floatformat:2 }}%</td>
+                            {% else %}
+                                <td height="35" bgcolor="pink"style="text-align: right;vertical-align: middle">{{ kpi.kpo|floatformat:2 }}%</td>
+                            {% endif %}
+                        {% elif kpi.target == 0  %}
+                            <td height="35" bgcolor="pink"style="text-align: right;vertical-align: middle">{{ kpi.kpo|floatformat:2 }}%</td>
+                        {% else %}
+                            <td height="35" bgcolor="red"style="text-align: right;vertical-align: middle;color:white">{{ kpi.kpo|floatformat:2 }}%</td>
+                        {% endif %}
+                        <td height="35" bgcolor=""style="text-align: right;vertical-align: middle">{{ kpi.delta|floatformat:2 }}%</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+var onetime = true;
+
+function myFunction()
+{
+        if (onetime === true)
+        {
+            onetime = false;
+            var x = document.getElementById("pbar");
+            if (x.style.display === "none")
+            {
+                x.style.display = "block";
+            }
+            else
+            {
+                x.style.display = "none";
+            }
+            var x = document.getElementById("data");
+            if (x.style.display === "none")
+            {
+                x.style.display = "block";
+            }
+            else
+            {
+                x.style.display = "none";
+            }
+        }
+}
+
+
+$('form').submit(function (event) {
+        if ($(this).hasClass('submitted')) {
+            event.preventDefault();
+        }
+        else {
+            $(this).find(':submit').html('<i>Attendi...</i>');
+            $(this).addClass('submitted');
+        }
+    });
+
+
+
+</script>
+
+
+{% endblock %}
